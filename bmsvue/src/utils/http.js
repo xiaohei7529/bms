@@ -31,10 +31,16 @@ http.interceptors.response.use(
       // Token 无效或过期的处理逻辑
       console.error('Unauthorized! Redirecting to login...');
       // 可以在此添加跳转逻辑
-      
+      toLogin();
     }
     return Promise.reject(error);
   }
 );
+
+function toLogin() {
+  currentToken = "";
+  localStorage.removeItem('token');
+  $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
+}
 
 export default http;
