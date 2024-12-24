@@ -1,58 +1,70 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+#BMS
+Book Management System
+书籍管理系统
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+>图书管理系统是一个用于管理图书信息、借阅记录和用户信息的软件系统。它可以帮助图书馆、学校和个人用户高效地管理书籍，提高借阅和归还的效率。本文将探讨图书管理系统的设计与实现，包括系统需求分析、系统架构设计、功能模块以及技术实现。
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## 一、系统需求分析
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+在设计图书管理系统之前，首先需要明确系统的需求，主要包括以下几个方面：
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+### 1. 用户角色
 
-## Learning Laravel
+- **管理员**：负责系统的维护和管理，包括添加、删除和修改图书信息，管理用户账户等。
+- **普通用户**：可以浏览图书信息，借阅和归还图书，查看个人借阅记录。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+### 2. 功能需求
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+- **图书管理**：实现添加、删除、修改和查询图书信息的功能。
+- **用户管理**：支持用户注册、登录、修改个人信息和查看借阅记录。
+- **借阅管理**：提供借阅图书、归还图书和查询借阅状态的功能。
+- **统计分析**：生成借阅统计报表，分析图书借阅情况。
 
-## Laravel Sponsors
+## 二、系统架构设计
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+图书管理系统的架构设计通常采用分层架构，主要包括以下几个层次：
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
+### 1. 表现层
 
-## Contributing
+负责与用户进行交互，提供友好的用户界面。
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 2. 业务逻辑层
 
-## Security Vulnerabilities
+处理系统的核心业务逻辑，包括图书管理、用户管理和借阅管理等。
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. 数据访问层
 
-## License
+负责与数据库进行交互，执行数据的增删改查操作。
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. 数据库层
+
+存储系统的所有数据，包括图书信息、用户信息和借阅记录。
+
+## 三、功能模块设计
+
+
+### 1. 图书管理模块
+
+- **添加图书**：输入图书的基本信息（如书名、作者、ISBN、分类等）。
+- **删除图书**：根据图书ID删除指定图书。
+- **修改图书**：更新图书的相关信息。
+- **查询图书**：根据条件（如书名、作者、分类等）查询图书。
+
+### 2. 用户管理模块
+
+- **用户注册**：新用户填写注册信息，系统进行验证。
+- **用户登录**：用户输入用户名和密码进行登录。
+- **修改个人信息**：用户可以更新自己的个人信息。
+- **查看借阅记录**：用户可以查看自己的借阅历史。
+
+### 3. 借阅管理模块
+
+- **借阅图书**：用户选择图书进行借阅，系统记录借阅信息。
+- **归还图书**：用户归还图书，系统更新借阅状态。
+- **查询借阅状态**：用户可以查询自己借阅的图书状态。
+
+### 4. 统计分析模块
+
+- **借阅统计**：生成图书借阅的统计报表，分析借阅频率和热门图书。
+- **用户统计**：分析用户借阅行为，提供用户活跃度报告。
