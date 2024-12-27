@@ -41,7 +41,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
-            \App\Http\Middleware\ApiToken::class,
+            \App\Http\Middleware\ApiJwtAuth::class, 
         ],
     ];
 
@@ -59,7 +59,6 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'api_token' => \App\Http\Middleware\ApiToken::class,
         'api_jwt_auth' => \App\Http\Middleware\ApiJwtAuth::class, 
         'cors' => \App\Http\Middleware\Cors::class,
     ];

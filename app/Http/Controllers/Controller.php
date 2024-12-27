@@ -17,6 +17,6 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->middleware(['cors']);
-        $this->middleware(['api_jwt_auth']);
+        // $this->middleware(['api_jwt_auth']);
     }
 }

@@ -68,7 +68,7 @@ $app->router->group([
 });
 
 /**
- * lumen 日志 按照日期保存
+ * laravel 日志 按照日期保存
  */
 $app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
     return $monoLog->pushHandler(
