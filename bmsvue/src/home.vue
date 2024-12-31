@@ -63,9 +63,36 @@
   
         <!-- 热门借阅模块 -->
         <el-card class="hot-borrow">
-          <h3>热门借阅</h3>
+          <div class="module-header">
+            <!-- 左侧标题 -->
+            <div class="title-group">
+              <span
+                :class="['title', activeTab === 'borrow' ? 'active' : '']"
+                @click="switchTab('borrow')"
+              >
+                热门借阅
+              </span>
+              <span
+                :class="['title', activeTab === 'collect' ? 'active' : '']"
+                @click="switchTab('collect')"
+              >
+                热门收藏
+              </span>
+              <span
+                :class="['title', activeTab === 'score' ? 'active' : '']"
+                @click="switchTab('score')"
+              >
+                高分图书
+              </span>
+            </div>
+  
+            <!-- 右侧查看更多 -->
+            <span class="more" @click="handleMore">查看更多</span>
+          </div>
+  
+          <!-- 图书列表 -->
           <el-row :gutter="20">
-            <el-col :span="6" v-for="(book, index) in hotBooks" :key="index">
+            <el-col :span="6" v-for="(book, index) in currentBooks" :key="index">
               <el-card :body-style="{ padding: '0px' }">
                 <img :src="book.image" class="image" />
                 <div style="padding: 14px;">
@@ -108,12 +135,27 @@
         searchQuery: "", // 书籍检索输入框的值
         searchType: "all", // 检索类型
         matchType: "any", // 匹配类型
+        activeTab: "borrow", // 当前选中的标签
         hotBooks: [
           // 热门借阅书籍数据
           { title: "书籍1", image: "https://via.placeholder.com/150" },
           { title: "书籍2", image: "https://via.placeholder.com/150" },
           { title: "书籍3", image: "https://via.placeholder.com/150" },
           { title: "书籍4", image: "https://via.placeholder.com/150" },
+        ],
+        collectBooks: [
+          // 热门收藏书籍数据
+          { title: "收藏1", image: "https://via.placeholder.com/150" },
+          { title: "收藏2", image: "https://via.placeholder.com/150" },
+          { title: "收藏3", image: "https://via.placeholder.com/150" },
+          { title: "收藏4", image: "https://via.placeholder.com/150" },
+        ],
+        scoreBooks: [
+          // 高分图书数据
+          { title: "高分1", image: "https://via.placeholder.com/150" },
+          { title: "高分2", image: "https://via.placeholder.com/150" },
+          { title: "高分3", image: "https://via.placeholder.com/150" },
+          { title: "高分4", image: "https://via.placeholder.com/150" },
         ],
         newBooks: [
           // 新书推荐书籍数据
@@ -124,6 +166,19 @@
         ],
       };
     },
+    computed: {
+      // 根据当前选中的标签返回对应的图书数据
+      currentBooks() {
+        if (this.activeTab === "borrow") {
+          return this.hotBooks;
+        } else if (this.activeTab === "collect") {
+          return this.collectBooks;
+        } else if (this.activeTab === "score") {
+          return this.scoreBooks;
+        }
+        return [];
+      },
+    },
     methods: {
       // 处理登录按钮点击事件
       handleLogin() {
@@ -132,6 +187,14 @@
       // 处理书籍检索
       handleSearch() {
         this.$message(`检索关键词: ${this.searchQuery}, 检索类型: ${this.searchType}, 匹配类型: ${this.matchType}`);
+      },
+      // 切换标签
+      switchTab(tab) {
+        this.activeTab = tab;
+      },
+      // 处理查看更多
+      handleMore() {
+        this.$message("查看更多功能待实现");
       },
     },
   };
@@ -224,9 +287,38 @@
     flex: 1;
   }
   
-  .hot-borrow,
-  .new-books {
+  /* 热门借阅模块样式 */
+  .hot-borrow {
     margin-top: 20px;
+  }
+  
+  .module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .title-group {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .title.active {
+    color: #409eff; /* 选中时的颜色 */
+  }
+  
+  .more {
+    font-size: 14px;
+    color: #999;
+    cursor: pointer;
   }
   
   .image {
