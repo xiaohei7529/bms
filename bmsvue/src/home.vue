@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <!-- 菜单栏 -->
-    <el-header>
+     <!-- 菜单栏 -->
+     <el-header>
       <el-menu
         mode="horizontal"
         background-color="#545c64"
@@ -22,9 +23,24 @@
           <el-menu-item index="5">资源浏览</el-menu-item>
         </div>
 
-        <!-- 右侧登录按钮 -->
+        <!-- 右侧登录按钮或用户头像 -->
         <el-menu-item index="6" class="login-button">
-          <el-button type="primary" @click="handleLogin">登录</el-button>
+          <div v-if="!isLoggedIn">
+            <el-button type="primary" @click="handleLogin">登录</el-button>
+          </div>
+          <div v-else>
+            <el-dropdown @command="handleCommand">
+              <div class="user-avatar">
+                <el-avatar :size="40" :src="userAvatar"></el-avatar>
+              </div>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+                <el-dropdown-item command="borrow">借阅图书</el-dropdown-item>
+                <el-dropdown-item command="contact">联系我们</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </el-menu-item>
       </el-menu>
     </el-header>
@@ -140,6 +156,9 @@ export default {
   name: "App",
   data() {
     return {
+      isLoggedIn: false, // 登录状态
+      userAvatar: "https://via.placeholder.com/150", // 用户头像
+      userName: "用户", // 用户名
       searchQuery: "", // 书籍检索输入框的值
       searchType: "all", // 检索类型
       matchType: "any", // 匹配类型
@@ -190,7 +209,43 @@ export default {
   methods: {
     // 处理登录按钮点击事件
     handleLogin() {
-      this.$message("登录功能待实现");
+        // 模拟登录成功
+        this.isLoggedIn = true;
+        this.$message.success("登录成功");
+    },
+    // 处理下拉菜单选项
+    handleCommand(command) {
+      switch (command) {
+        case "logout":
+          this.handleLogout();
+          break;
+        case "contact":
+          this.handleContact();
+          break;
+        case "profile":
+          this.handleProfile();
+          break;
+        case "borrow":
+          this.handleBorrow();
+          break;
+      }
+    },
+    // 处理退出登录
+    handleLogout() {
+      this.isLoggedIn = false;
+      this.$message.success("退出登录成功");
+    },
+    // 处理联系我们
+    handleContact() {
+      this.$message("联系我们功能待实现");
+    },
+    // 处理个人信息
+    handleProfile() {
+      this.$message("个人信息功能待实现");
+    },
+    // 处理借阅图书
+    handleBorrow() {
+      this.$message("借阅图书功能待实现");
     },
     // 处理书籍检索
     handleSearch() {
@@ -267,7 +322,7 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("https://via.placeholder.com/1920x300"); /* 替换为你的背景图 */
+  background-image: url("https://static12.libsp.cn/static/img/new3.0bg.fc712c1.png"); /* 替换为你的背景图 */
   background-size: cover;
   background-position: center;
   z-index: 1;
@@ -277,7 +332,7 @@ export default {
 .search-shadow {
   width: 1140px;
   height: 126px;
-  background: rgba(255, 255, 255, 0.8); /* 透明阴影 */
+  background: rgba(0,0,0,.25); /* 透明阴影 */
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -337,5 +392,15 @@ export default {
   width: 100%;
   height: 200px;
   object-fit: cover;
+}
+
+.login-button {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.user-avatar {
+  cursor: pointer;
 }
 </style>
