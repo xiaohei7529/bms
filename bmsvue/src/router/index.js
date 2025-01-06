@@ -11,23 +11,23 @@ const router =  new Router({
     {
       path: '/login',
       name: 'login',
-      component:() => import('@/Login.vue'),
+      component:() => import('@/components/Login.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
       path: '/register',
       name: 'register',
-      component:() => import('@/register.vue'),
+      component:() => import('@/components/register.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
       path: '/home',
       name: 'home',
-      component:() => import('@/home.vue'),
+      component:() => import('@/components/home.vue'),
       meta: {
         requiresAuth: false
       }
@@ -37,7 +37,7 @@ const router =  new Router({
       name: 'HelloWorld',
       component:() => import('@/components/HelloWorld.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
@@ -45,7 +45,7 @@ const router =  new Router({
       name: 'YourComponent',
       component: YourComponent,
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     }
   ]
@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
       }
 
       return next({
-        path: '/login',
+        path: '/home',
         query: {
           redirect: Math.random()
         }

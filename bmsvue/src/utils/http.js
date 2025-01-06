@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+
 // 创建 Axios 实例
 const http = axios.create({
   // baseURL: 'http://bms.test:3333/', // 替换为你的 API 基础路径
-  baseURL: '/api', // 替换为你的 API 基础路径
+  // baseURL: '/api', // 替换为你的 API 基础路径
+  baseURL: process.env.BASE_API, // 替换为你的 API 基础路径
   timeout: 10000, // 请求超时时间
 });
 

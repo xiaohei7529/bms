@@ -1,50 +1,5 @@
 <template>
   <div id="app">
-    <!-- 菜单栏 -->
-     <!-- 菜单栏 -->
-     <el-header>
-      <el-menu
-        mode="horizontal"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-        class="custom-menu"
-      >
-        <!-- 左侧项目名 -->
-        <el-menu-item index="1" class="project-name">
-          图书管理
-        </el-menu-item>
-
-        <!-- 中间菜单项 -->
-        <div class="menu-center">
-          <el-menu-item index="2">资源检索</el-menu-item>
-          <el-menu-item index="3">资源推荐</el-menu-item>
-          <el-menu-item index="4">资源导航</el-menu-item>
-          <el-menu-item index="5">资源浏览</el-menu-item>
-        </div>
-
-        <!-- 右侧登录按钮或用户头像 -->
-        <el-menu-item index="6" class="login-button">
-          <div v-if="!isLoggedIn">
-            <el-button type="primary" @click="handleLogin">登录</el-button>
-          </div>
-          <div v-else>
-            <el-dropdown @command="handleCommand">
-              <div class="user-avatar">
-                <el-avatar :size="40" :src="userAvatar"></el-avatar>
-              </div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item command="borrow">借阅图书</el-dropdown-item>
-                <el-dropdown-item command="contact">联系我们</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </el-menu-item>
-      </el-menu>
-    </el-header>
-
     <!-- 书籍检索模块 -->
     <el-main>
       <div class="search-module">
@@ -156,9 +111,6 @@ export default {
   name: "App",
   data() {
     return {
-      isLoggedIn: false, // 登录状态
-      userAvatar: "https://via.placeholder.com/150", // 用户头像
-      userName: "用户", // 用户名
       searchQuery: "", // 书籍检索输入框的值
       searchType: "all", // 检索类型
       matchType: "any", // 匹配类型
@@ -207,46 +159,7 @@ export default {
     },
   },
   methods: {
-    // 处理登录按钮点击事件
-    handleLogin() {
-        // 模拟登录成功
-        this.isLoggedIn = true;
-        this.$message.success("登录成功");
-    },
-    // 处理下拉菜单选项
-    handleCommand(command) {
-      switch (command) {
-        case "logout":
-          this.handleLogout();
-          break;
-        case "contact":
-          this.handleContact();
-          break;
-        case "profile":
-          this.handleProfile();
-          break;
-        case "borrow":
-          this.handleBorrow();
-          break;
-      }
-    },
-    // 处理退出登录
-    handleLogout() {
-      this.isLoggedIn = false;
-      this.$message.success("退出登录成功");
-    },
-    // 处理联系我们
-    handleContact() {
-      this.$message("联系我们功能待实现");
-    },
-    // 处理个人信息
-    handleProfile() {
-      this.$message("个人信息功能待实现");
-    },
-    // 处理借阅图书
-    handleBorrow() {
-      this.$message("借阅图书功能待实现");
-    },
+
     // 处理书籍检索
     handleSearch() {
       this.$message(`检索关键词: ${this.searchQuery}, 检索类型: ${this.searchType}, 匹配类型: ${this.matchType}`);
@@ -268,26 +181,26 @@ export default {
 </script>
 
 <style>
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
+} */
 
-.el-header {
+/* .el-header {
   padding: 0;
-}
+} */
 
-.custom-menu {
+/* .custom-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-}
+} */
 
-.project-name {
+/* .project-name {
   font-size: 18px;
   font-weight: bold;
   flex: 1;
@@ -303,7 +216,7 @@ export default {
   flex: 1;
   display: flex;
   justify-content: flex-end;
-}
+} */
 
 /* 书籍检索模块样式 */
 .search-module {
