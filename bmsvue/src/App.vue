@@ -123,8 +123,7 @@ export default {
           });
 
           this.isLoggedIn = true;
-
-          this.$message.success("登录成功");
+          // this.$message.success("登录成功");
         })
         .catch((error) => {
           console.error('Login failed:', error);

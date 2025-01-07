@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import YourComponent from '@/components/YourComponent'
+import SidebarLayout from '@/components/SidebarLayout'
 
 Vue.use(Router)
 
@@ -44,6 +45,14 @@ const router =  new Router({
       path: '/t',
       name: 'YourComponent',
       component: YourComponent,
+      meta: {
+        requiresAuth: false
+      }
+    },
+    {
+      path: '/s',
+      name: 'SidebarLayout',
+      component: SidebarLayout,
       meta: {
         requiresAuth: false
       }
