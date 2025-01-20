@@ -1,145 +1,159 @@
 <template>
-  <div >
-    <!-- 菜单栏 -->
-    <el-header>
-      <el-menu mode="horizontal" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
-        class="custom-menu">
-        <!-- 左侧项目名 -->
-        <el-menu-item index="1" class="project-name">
-          图书管理
-        </el-menu-item>
+  <div>
+    <el-container>
 
-        <!-- 中间菜单项 -->
-        <div class="menu-center">
-          <el-menu-item index="2">资源检索</el-menu-item>
-          <el-menu-item index="3">资源推荐</el-menu-item>
-          <el-menu-item index="4">资源导航</el-menu-item>
-          <el-menu-item index="5">资源浏览</el-menu-item>
-        </div>
+      <!-- 菜单栏 -->
+      <el-header>
+        <el-menu mode="horizontal" background-color="#264347" text-color="#fff" active-text-color="#ffd04b"
+          class="custom-menu">
+          <!-- 左侧项目名 -->
+          <el-menu-item index="1" class="project-name">
+            图书管理
+          </el-menu-item>
 
-        <!-- 右侧登录按钮或用户头像 -->
-        <el-menu-item index="6" class="login-button">
-          <div v-if="!isLoggedIn">
-            <el-button type="primary">
-              <router-link  to="/register" class="register-link" >注册</router-link>
-            </el-button>
-            <el-button type="primary"> 
-              <router-link  to="/login" class="register-link" > 登录</router-link>
-            </el-button>
-          </div>
-          <div v-else>
-            <el-dropdown @command="handleCommand">
-              <div class="user-avatar">
-                <el-avatar :size="40" :src="userAvatar"></el-avatar>
-              </div>
-              <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="profile">个人信息</el-dropdown-item>
-                <el-dropdown-item command="borrow">借阅图书</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
-            </el-dropdown>
-          </div>
-        </el-menu-item>
-      </el-menu>
-    </el-header>
-
-    <el-main>
-      <div class="search-module">
-        <!-- 背景图 -->
-        <div class="search-background"></div>
-
-        <!-- 透明阴影区域 -->
-        <div class="search-shadow">
-          <!-- 下拉选择框 -->
-          <div class="search-options">
-            <el-select v-model="searchType" placeholder="全部检索">
-              <el-option label="全部检索" value="all"></el-option>
-              <el-option label="书名检索" value="title"></el-option>
-              <el-option label="作者检索" value="author"></el-option>
-            </el-select>
-            <el-select v-model="matchType" placeholder="任意匹配">
-              <el-option label="任意匹配" value="any"></el-option>
-              <el-option label="精确匹配" value="exact"></el-option>
-            </el-select>
+          <!-- 中间菜单项 -->
+          <div class="menu-center">
+            <el-menu-item index="2">资源检索</el-menu-item>
+            <el-menu-item index="3">资源推荐</el-menu-item>
+            <el-menu-item index="4">资源导航</el-menu-item>
+            <el-menu-item index="5">资源浏览</el-menu-item>
           </div>
 
-          <!-- 输入框 -->
-          <el-input placeholder="请输入书名或作者" v-model="searchQuery" @keyup.enter="handleSearch">
-            <el-button slot="append" icon="el-icon-search" @click="handleSearch"></el-button>
-          </el-input>
-        </div>
-      </div>
-
-      <!-- 热门借阅模块 -->
-      <el-card class="hot-borrow">
-        <div class="module-header">
-          <!-- 左侧标题 -->
-          <div class="title-group">
-            <span :class="['title', activeTab === 'borrow' ? 'active' : '']" @click="switchTab('borrow')">
-              热门借阅
-            </span>
-            <span :class="['title', activeTab === 'collect' ? 'active' : '']" @click="switchTab('collect')">
-              热门收藏
-            </span>
-            <span :class="['title', activeTab === 'score' ? 'active' : '']" @click="switchTab('score')">
-              高分图书
-            </span>
-          </div>
-
-          <!-- 右侧查看更多 -->
-          <span class="more" @click="handleMore">查看更多</span>
-        </div>
-
-        <!-- 图书列表 -->
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(book, index) in currentBooks" :key="index">
-            <el-card :body-style="{ padding: '0px' }">
-              <img :src="book.image" class="image" />
-              <div style="padding: 14px;">
-                <span>{{ book.title }}</span>
-                <div class="bottom clearfix">
-                  <el-button type="text" class="button">查看详情</el-button>
+          <!-- 右侧登录按钮或用户头像 -->
+          <el-menu-item index="6" class="login-button">
+            <div v-if="!isLoggedIn">
+              <el-button type="primary">
+                <router-link to="/register" class="register-link">注册</router-link>
+              </el-button>
+              <el-button type="primary">
+                <router-link to="/login" class="register-link"> 登录</router-link>
+              </el-button>
+            </div>
+            <div v-else>
+              <el-dropdown @command="handleCommand">
+                <div class="user-avatar">
+                  <el-avatar :size="40" :src="userAvatar"></el-avatar>
                 </div>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item command="profile">个人信息</el-dropdown-item>
+                  <el-dropdown-item command="borrow">借阅图书</el-dropdown-item>
+                  <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+            </div>
+          </el-menu-item>
+        </el-menu>
+      </el-header>
+
+
+      <el-main>
+        <div class="search-module">
+          <!-- 背景图 -->
+          <img class="search-background">
+
+          <!-- 透明阴影区域 -->
+          <div class="search-shadow">
+            <div class="search-shadow1">
+              <div class="search-shadow2">
+                <!-- 输入框 -->
+                <el-input placeholder="请输入书名或作者" v-model="searchQuery" @keyup.enter="handleSearch">
+
+                  <el-select v-model="searchType" slot="prepend" placeholder="全部检索">
+                    <el-option label="全部检索" value="all"></el-option>
+                    <el-option label="书名检索" value="title"></el-option>
+                    <el-option label="作者检索" value="author"></el-option>
+                  </el-select>
+
+                  <el-select v-model="matchType" slot="prepend" placeholder="任意匹配">
+                    <el-option label="任意匹配" value="any"></el-option>
+                    <el-option label="精确匹配" value="exact"></el-option>
+                  </el-select>
+
+                  <el-button slot="append" icon="el-icon-search" @click="handleSearch">检索</el-button>
+                </el-input>
               </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-card>
-
-      <!-- 新书推荐模块 -->
-      <el-card class="new-books">
-        <div class="module-header">
-          <!-- 左侧标题 -->
-          <span class="title">新书推荐</span>
-
-          <!-- 右侧查看更多 -->
-          <span class="more" @click="handleMoreNewBooks">查看更多</span>
+            </div>
+          </div>
         </div>
 
-        <!-- 图书列表 -->
-        <el-row :gutter="20">
-          <el-col :span="6" v-for="(book, index) in newBooks" :key="index">
-            <el-card :body-style="{ padding: '0px' }">
-              <img :src="book.image" class="image" />
-              <div style="padding: 14px;">
-                <span>{{ book.title }}</span>
-                <div class="bottom clearfix">
-                  <el-button type="text" class="button">查看详情</el-button>
-                </div>
+        <!-- 热门借阅模块 -->
+        <div class="hot-borrow">
+          <el-card>
+            <div class="module-header">
+              <!-- 左侧标题 -->
+              <div class="title-group">
+                <span :class="['title', activeTab === 'borrow' ? 'active' : '']" @click="switchTab('borrow')">
+                  热门借阅
+                </span>
+                <span :class="['title', activeTab === 'collect' ? 'active' : '']" @click="switchTab('collect')">
+                  热门收藏
+                </span>
+                <span :class="['title', activeTab === 'score' ? 'active' : '']" @click="switchTab('score')">
+                  高分图书
+                </span>
               </div>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-card>
-    </el-main>
-    <router-view />
 
-  
+              <!-- 右侧查看更多 -->
+              <span class="more" @click="handleMore">查看更多</span>
+            </div>
+            <el-divider></el-divider>
 
 
+            <!-- 图书列表 -->
+            <el-row :gutter="20">
+              <el-col :span="6" v-for="(book, index) in currentBooks" :key="index">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img :src="book.image" class="image" />
+                  <div style="padding: 14px;">
+                    <span>{{ book.title }}</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text" class="button">
+                        <router-link target="_blank" :to="`/bookDetails/${book.id}`" class="register-link"> 查看详情</router-link>
+                      </el-button>
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-card>
+        </div>
+
+        <!-- 新书推荐模块 -->
+        <div class="new-books">
+          <el-card>
+            <div class="module-header">
+              <!-- 左侧标题 -->
+              <span class="title">新书推荐</span>
+
+              <!-- 右侧查看更多 -->
+              <span class="more" @click="handleMoreNewBooks">查看更多</span>
+            </div>
+            <el-divider></el-divider>
+
+
+            <!-- 图书列表 -->
+            <el-row :gutter="20">
+              <el-col :span="6" v-for="(book, index) in newBooks" :key="index">
+                <el-card :body-style="{ padding: '0px' }">
+                  <img :src="book.image" class="image" />
+                  <div style="padding: 14px;">
+                    <span>{{ book.title }}</span>
+                    <div class="bottom clearfix">
+                      <el-button type="text" class="button">
+                        <router-link target="_blank" :to="`/bookDetails/${book.id}`" class="register-link"> 查看详情</router-link>
+                      </el-button>                    
+                    </div>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+          </el-card>
+        </div>
+      </el-main>
+
+      <router-view />
+    </el-container>
   </div>
-
-
 </template>
 
 <script>
@@ -164,10 +178,10 @@ export default {
       activeTab: "borrow", // 当前选中的标签
       hotBooks: [
         // 热门借阅书籍数据
-        { title: "书籍1", image: "https://via.placeholder.com/150" },
-        { title: "书籍2", image: "https://via.placeholder.com/150" },
-        { title: "书籍3", image: "https://via.placeholder.com/150" },
-        { title: "书籍4", image: "https://via.placeholder.com/150" },
+        { id:1, title: "书籍1", image: "https://via.placeholder.com/150" },
+        { id:2, title: "书籍2", image: "https://via.placeholder.com/150" },
+        { id:3, title: "书籍3", image: "https://via.placeholder.com/150" },
+        { id:4, title: "书籍4", image: "https://via.placeholder.com/150" },
       ],
       collectBooks: [
         // 热门收藏书籍数据
@@ -278,21 +292,17 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
-  color: #2c3e50;
-}
-
 .el-header {
   padding: 0;
-  height:auto;
   width: 100%;
   position: fixed;
   z-index: 999;
-  background:#001529;
+}
+
+.el-main {
+  margin: 0;
+  padding: 0;
+  margin-top: 60px;
 }
 
 .custom-menu {
@@ -326,10 +336,6 @@ export default {
     height: 300px;
     position: relative;
     padding-top:50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
     margin-bottom:16px;
   }
   
@@ -337,34 +343,46 @@ export default {
   .search-background {
     position: absolute;
     top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background-image: url("https://static12.libsp.cn/static/img/new3.0bg.fc712c1.png"); /* 替换为你的背景图 */
-    background-size: cover;
-    background-position: center;
-    z-index: 1;
+    object-fit: cover;
   }
   
   /* 透明阴影区域 */
   .search-shadow {
-    width: 1140px;
+    margin: auto;
+    position: relative;
+    width: 1060px;
     height: 126px;
     background: rgba(0,0,0,.25); /* 透明阴影 */
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 2;
-    position: relative;
   }
+
+    /* 透明阴影区域 */
+  .search-shadow1 {
+    width: 100%;
+    position: relative;
+    left: 0;
+    top: 23px;
+    z-index: 4;
+    border-radius: 0 0 3px 4px;
+  }
+
   
   /* 下拉选择框样式 */
-  .search-options {
-    display: flex;
-    gap: 10px;
-    margin-right: 20px;
+  .search-shadow2 {
+    margin: auto;
+    width: 936px;
+    height: 40px;
+    position: relative;
+    left: 0;
+    top: 23px;
+    z-index: 4;
+    border-radius: 0 0 3px 4px;
+    .el-button {
+      background-color: #05a081;
+      color: #fff;
+    }
   }
   
   /* 输入框样式 */
@@ -374,7 +392,16 @@ export default {
   
   /* 热门借阅模块样式 */
   .hot-borrow {
+    margin: auto;
     margin-top: 20px;
+    width: 1240px;;
+  }
+
+    /* 新书推荐模块样式 */
+  .new-books {
+    margin: auto;
+    margin-top: 20px;
+    width: 1240px;;
   }
   
   .module-header {
@@ -421,8 +448,15 @@ export default {
   .user-avatar {
     cursor: pointer;
   }
-/* 取消 router-link 的下划线 */
-.register-link {
-  text-decoration: none;
-}
+  /* 取消 router-link 的下划线 */
+  .register-link {
+    text-decoration: none;
+  }
+
+  .router-link-active {
+    text-decoration: none;
+  }
+  .el-select .el-input {
+    width: 130px;
+  }
 </style>

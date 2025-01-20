@@ -3,7 +3,9 @@ import Router from 'vue-router'
 // import HelloWorld from '@/HelloWorld'
 import YourComponent from '@/components/YourComponent'
 import SidebarLayout from '@/components/user/SidebarLayout'
-import AdminIndex from '@/components/admin/Index'
+import bookDetails from '@/components/user/bookDetails'
+import adminIndex from '@/components/admin/Index'
+import adminLogin from '@/components/admin/Login'
 
 
 Vue.use(Router)
@@ -35,26 +37,43 @@ const router =  new Router({
         requiresAuth: false
       },
     },
+    // {
+    //   path: '/t',
+    //   name: 'YourComponent',
+    //   component: YourComponent,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/s',
+    //   name: 'SidebarLayout',
+    //   component: SidebarLayout,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
     {
-      path: '/t',
-      name: 'YourComponent',
-      component: YourComponent,
+      path: '/bookDetails/:id',
+      name: 'bookDetails',
+      component: bookDetails,
       meta: {
         requiresAuth: false
       }
     },
+
     {
-      path: '/s',
-      name: 'SidebarLayout',
-      component: SidebarLayout,
+      path: '/adminIndex',
+      name: 'adminIndex',
+      component: adminIndex,
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       }
     },
     {
-      path: '/admin',
-      name: 'AdminIndex',
-      component: AdminIndex,
+      path: '/adminLogin',
+      name: 'adminLogin',
+      component: adminLogin,
       meta: {
         requiresAuth: false
       }
@@ -63,7 +82,7 @@ const router =  new Router({
 })
 
 
-const whiteList = ['/login', '/register','/home','/admin'];
+const whiteList = ['/login', '/register','/home','/adminLogin'];
 
 
 // 全局路由守卫
@@ -81,7 +100,7 @@ router.beforeEach((to, from, next) => {
       }
 
       return next({
-        path: '/home',
+        path: '/login',
         query: {
           redirect: Math.random()
         }

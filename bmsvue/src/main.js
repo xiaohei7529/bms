@@ -14,6 +14,8 @@ Vue.prototype.$http = http; // 将 Axios 实例挂载到 Vue 原型
 import cors from 'cors';
 Vue.use(cors)
 
+import GeminiScrollbar from 'vue-gemini-scrollbar'
+Vue.use(GeminiScrollbar)
 
 Vue.config.productionTip = false
 
