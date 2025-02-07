@@ -23,6 +23,20 @@ body,
   color: #2c3e50;
 }
 
+.el-header {
+  padding: 0;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.el-main {
+  margin-top: 60px; /* 调整顶部间距，避免内容被头部遮挡 */
+}
+
 .el-container {
     padding: 0;
     margin: 0;

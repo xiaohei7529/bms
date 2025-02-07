@@ -6,6 +6,10 @@ import SidebarLayout from '@/components/user/SidebarLayout'
 import bookDetails from '@/components/user/bookDetails'
 import adminIndex from '@/components/admin/Index'
 import adminLogin from '@/components/admin/Login'
+import frontRoutes from './front';
+import adminRoutes from './admin';
+import NotFound from '../views/NotFound.vue'; // 导入404页面组件
+
 
 
 Vue.use(Router)
@@ -13,30 +17,30 @@ Vue.use(Router)
 const router =  new Router({
   mode: 'history', // 使用 history 模式
   routes: [
-    {
-      path: '/',
-      name: 'index',
-      component:() => import('@/components/user/Index.vue'),
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component:() => import('@/components/Login.vue'),
-      meta: {
-        requiresAuth: false
-      }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component:() => import('@/components/register.vue'),
-      meta: {
-        requiresAuth: false
-      },
-    },
+    // {
+    //   path: '/',
+    //   name: 'index',
+    //   component:() => import('@/components/user/Index.vue'),
+    //   meta: {
+    //     requiresAuth: false
+    //   }
+    // },
+    // {
+    //   path: '/login',
+    //   name: 'login',
+    //   component:() => import('@/components/Login.vue'),
+    //   meta: {
+    //     requiresAuth: false
+    //   }
+    // },
+    // {
+    //   path: '/register',
+    //   name: 'register',
+    //   component:() => import('@/components/register.vue'),
+    //   meta: {
+    //     requiresAuth: false
+    //   },
+    // },
     // {
     //   path: '/t',
     //   name: 'YourComponent',
@@ -53,31 +57,38 @@ const router =  new Router({
     //     requiresAuth: true
     //   }
     // },
-    {
-      path: '/bookDetails/:id',
-      name: 'bookDetails',
-      component: bookDetails,
-      meta: {
-        requiresAuth: false
-      }
-    },
+    // {
+    //   path: '/bookDetails/:id',
+    //   name: 'bookDetails',
+    //   component: bookDetails,
+    //   meta: {
+    //     requiresAuth: false
+    //   }
+    // },
 
+    // {
+    //   path: '/adminIndex',
+    //   name: 'adminIndex',
+    //   component: adminIndex,
+    //   meta: {
+    //     requiresAuth: true
+    //   }
+    // },
+    // {
+    //   path: '/adminLogin',
+    //   name: 'adminLogin',
+    //   component: adminLogin,
+    //   meta: {
+    //     requiresAuth: false
+    //   }
+    // },
+    ...frontRoutes, // 前台路由
+    ...adminRoutes, // 后台路由
     {
-      path: '/adminIndex',
-      name: 'adminIndex',
-      component: adminIndex,
-      meta: {
-        requiresAuth: true
-      }
-    },
-    {
-      path: '/adminLogin',
-      name: 'adminLogin',
-      component: adminLogin,
-      meta: {
-        requiresAuth: false
-      }
-    },
+      path: '*', // 404 页面
+      // redirect: '/'
+      component:NotFound 
+    }
   ]
 })
 
