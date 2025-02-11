@@ -20,12 +20,8 @@
         <!-- 右侧登录按钮或用户头像 -->
         <el-menu-item index="6" class="login-button">
           <div v-if="!isLoggedIn">
-            <el-button type="primary">
-              <router-link to="/register" class="register-link">注册</router-link>
-            </el-button>
-            <el-button type="primary">
-              <router-link to="/login" class="register-link"> 登录</router-link>
-            </el-button>
+            <el-button type="primary" @click="handleRegister()">注册</el-button>
+            <el-button type="primary" @click="handleLogin()">登录</el-button>
           </div>
           <div v-else>
             <el-dropdown @command="handleCommand">
@@ -112,26 +108,27 @@ export default {
   methods: {
     // 处理登录按钮点击事件
     handleLogin() {
-      // 模拟登录成功
-      this.$http.post('api/auth/userLogin', { email: this.User.email, password: this.User.password })
-        .then((response) => {
-          localStorage.setItem('token', response.access_token); // 存储 Token
-          console.log('Login successful!');
-          this.$notify({
-            title: '成功',
-            message: '登录成功！',
-            type: 'success'
-          });
+      // // 模拟登录成功
+      // this.$http.post('api/auth/userLogin', { email: this.User.email, password: this.User.password })
+      //   .then((response) => {
+      //     localStorage.setItem('token', response.access_token); // 存储 Token
+      //     console.log('Login successful!');
+      //     this.$notify({
+      //       title: '成功',
+      //       message: '登录成功！',
+      //       type: 'success'
+      //     });
 
-          this.isLoggedIn = true;
-          // this.$message.success("登录成功");
-        })
-        .catch((error) => {
-          console.error('Login failed:', error);
-        });
+      //     this.isLoggedIn = true;
+      //     // this.$message.success("登录成功");
+      //   })
+      //   .catch((error) => {
+      //     console.error('Login failed:', error);
+      //   });
+      this.$router.push({ name: 'login' });
     },
     handleRegister() {
-
+      this.$router.push({ name: 'register' });
     },
     // 处理下拉菜单选项
     handleCommand(command) {
