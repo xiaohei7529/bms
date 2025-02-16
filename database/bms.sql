@@ -18,28 +18,89 @@ CREATE TABLE `book` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图书id',
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '书名',
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '作者',
-  `category` int(11) NOT NULL DEFAULT '0' COMMENT '分类id',
+  `category_id` int(11) NOT NULL DEFAULT '0' COMMENT '分类id',
   `isbn` varchar(13) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '国际标准书号',
   `stock` int(11) DEFAULT '0' COMMENT '库存数量',
   `description` text COLLATE utf8_unicode_ci COMMENT '书籍简介',
   `cover_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '封面图纸路径',
   `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `isbn` (`isbn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书表';
+
+
+-- 1. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('The Great Gatsby', 'F. Scott Fitzgerald', 1, '9780743273565', 10, 'A classic novel about the American Dream.', '/images/great_gatsby.jpg', NOW());
+
+-- 2. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('To Kill a Mockingbird', 'Harper Lee', 1, '9780061120084', 15, 'A powerful story of racial injustice.', '/images/mockingbird.jpg', NOW());
+
+-- 3. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('1984', 'George Orwell', 2, '9780451524935', 20, 'A dystopian novel about totalitarianism.', '/images/1984.jpg', NOW());
+
+-- 4. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('Pride and Prejudice', 'Jane Austen', 3, '9780141439518', 12, 'A romantic novel set in 19th century England.', '/images/pride_prejudice.jpg', NOW());
+
+-- 5. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('The Catcher in the Rye', 'J.D. Salinger', 1, '9780316769488', 8, 'A story of teenage rebellion and alienation.', '/images/catcher_rye.jpg', NOW());
+
+-- 6. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('The Hobbit', 'J.R.R. Tolkien', 4, '9780547928227', 25, 'A fantasy novel about Bilbo Baggins.', '/images/hobbit.jpg', NOW());
+
+-- 7. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('Brave New World', 'Aldous Huxley', 2, '9780060850524', 18, 'A dystopian novel about a futuristic society.', '/images/brave_new_world.jpg', NOW());
+
+-- 8. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('The Lord of the Rings', 'J.R.R. Tolkien', 4, '9780544003415', 30, 'An epic fantasy trilogy.', '/images/lord_of_rings.jpg', NOW());
+
+-- 9. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('Moby Dick', 'Herman Melville', 5, '9781503280786', 5, 'A novel about the voyage of the whaling ship Pequod.', '/images/moby_dick.jpg', NOW());
+
+-- 10. 插入一本图书
+INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
+VALUES ('War and Peace', 'Leo Tolstoy', 6, '9781400079988', 22, 'A historical novel set during the Napoleonic Wars.', '/images/war_peace.jpg', NOW());
 
 
 CREATE TABLE `borrow_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT '0' COMMENT '用户id',
-  `book_id` int(11) DEFAULT '0' COMMENT '图书id',
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',
   `borrow_date` datetime DEFAULT NULL COMMENT '借阅日期',
   `return_date` datetime DEFAULT NULL COMMENT '归还日期',
   `status` tinyint(4) DEFAULT '0' COMMENT '借阅状态 0.未归还   1. 已归还',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='借阅记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='借阅记录表';
 
 CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书分类表';
+
+
+INSERT INTO `category` (`name`) VALUES 
+('文学'),
+('科技'),
+('历史'),
+('艺术'),
+('哲学'),
+('经济');
+
+
+
+CREATE TABLE `bookfavorite` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+  `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',
+  `ctime` datetime DEFAULT NULL COMMENT '收藏时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='收藏记录表';

@@ -112,13 +112,14 @@ export default {
           {{ errorMessage }}
         </div>
         <form @submit.prevent="login" class="login-form">
-          <input type="text" v-model="username" placeholder="用户名" required>
+          <input type="text" v-model="email" placeholder="邮箱" required value="admin@163.com">
           <div class="password-container">
             <input
               :type="showPassword ? 'text' : 'password'"
               v-model="password"
               placeholder="密码"
               required
+              value="123456"
             />
           </div>
 
@@ -141,7 +142,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      username: '', // 用户名
+      email: '', // 用户名
       password: '', // 密码
       errorMessage: '', // 错误信息
       successMessage: '', // 成功信息
@@ -151,20 +152,34 @@ export default {
   methods: {
     async login() {
       try {
-        const response = await axios.post('user', {
-          username: this.username,
-          password: this.password,
-        });
+        // const response = await axios.post('user', {
+        //   username: this.username,
+        //   password: this.password,
+        // });
+
+
+        const response = await  this.$http.post('api/auth/userLogin', { email: this.email, password: this.password })
+        
+        console.log(response);
+
         // 处理返回结果
-        if (response.data.flag) {
-          this.successMessage = response.data.msg; // 显示登录成功的信息
-          alert(this.successMessage); // 可以弹出提示或者在页面上显示
+        if (response.code == "200") {
+          // this.successMessage = response.data.msg; // 显示登录成功的信息
+          // alert(this.successMessage); // 可以弹出提示或者在页面上显示
+
+          localStorage.setItem('token', response.results.access_token); // 存储 Token
+          console.log('Login successful!');
+          this.$notify({
+            title: '成功',
+            message: '登录成功！',
+            type: 'success'
+          });
 
           // 登录成功后，跳转到指定的路由
-          this.$router.push({ path: '/dashboard' });
+          this.$router.push({ path: '/admin' });
         } else {
           // 如果登录失败，显示错误信息
-          this.errorMessage = response.data.msg || '登录失败，请重试。';
+          this.errorMessage = response.message || '登录失败，请重试。';
         }
       } catch (error) {
         // 捕获网络错误或其他异常

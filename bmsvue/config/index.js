@@ -11,8 +11,15 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      // '/api': {
+      //   target: 'http://bms.test:3333/',
+      //   changeOrigin: true,  //是否跨域
+      //   pathRewrite: {
+      //     '^/api': ''   //需要rewrite重写的,
+      //   }
+      // },
       '/api': {
-        target: 'http://bms.test:3333/',
+        target: 'http://bms.test:8080/',
         changeOrigin: true,  //是否跨域
         pathRewrite: {
           '^/api': ''   //需要rewrite重写的,

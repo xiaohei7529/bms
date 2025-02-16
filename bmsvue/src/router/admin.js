@@ -18,7 +18,32 @@ const adminRoutes = [
             meta: {
                 requiresAuth: false
             }
+          },
+          {
+            path: 'booklist',
+            name: 'booklist',
+            component: () => import('@/views/admin/booklist.vue'),
+            meta: {
+                requiresAuth: false
+            }
+          },
+          {
+            path: 'bookaudit',
+            name: 'bookaudit',
+            component: () => import('@/views/admin/bookaudit.vue'),
+            meta: {
+                requiresAuth: false
+            }
+          },
+          {
+            path: 'bookcategory',
+            name: 'bookcategory',
+            component: () => import('@/views/admin/bookcategory.vue'),
+            meta: {
+                requiresAuth: false
+            }
           }
+          
         ],
         meta: {
             requiresAuth: false

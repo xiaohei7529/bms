@@ -41,8 +41,10 @@
               <i class="el-icon-notebook-2"></i>
               <span>图书管理</span>
             </template>
-            <el-menu-item index="book-list">图书列表</el-menu-item>
             <el-menu-item index="add-book">添加图书</el-menu-item>
+            <el-menu-item index="admin/booklist">图书列表</el-menu-item>
+            <el-menu-item index="admin/bookcategory">图书分类</el-menu-item>
+            <el-menu-item index="admin/bookaudit">审批借阅图书</el-menu-item>
           </el-submenu>
           <el-submenu index="user">
             <template slot="title">
@@ -76,6 +78,7 @@ export default {
   methods: {
     // 处理菜单项选择
     handleMenuSelect(index) {
+      console.log(index)
       this.$router.push(`/${index}`);
     },
     // 处理用户操作
