@@ -25,13 +25,17 @@ http.interceptors.request.use(
 
 // 添加响应拦截器
 http.interceptors.response.use(
+  
   (response) => {
+    if (response && (response.data.code === 401 || response.data.code === 422)) {
+      // 可以在此添加跳转逻辑
+      toLogin();
+      return false;
+    }
     return response.data; // 简化响应数据
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Token 无效或过期的处理逻辑
-      console.error('Unauthorized! Redirecting to login...');
+    if (error.response && (error.response.status === 401 || error.response.status === 422)) {
       // 可以在此添加跳转逻辑
       toLogin();
     }
@@ -40,9 +44,8 @@ http.interceptors.response.use(
 );
 
 function toLogin() {
-  currentToken = "";
   localStorage.removeItem('token');
-  $httpVue.$router.push({ path: '/login', params: { r: Math.random() } });
+  this.$router.push({ path: '/login', params: { r: Math.random() } });
 }
 
 export default http;

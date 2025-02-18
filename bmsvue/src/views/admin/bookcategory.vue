@@ -3,18 +3,8 @@
 
         <h3>图书分类</h3>
         <el-card class="book-list">
-            <el-table :data="booksList" stripe>
-                <el-table-column prop="cover_image" label="书籍封面">
-                    <template slot-scope="scope">
-                        <img src="scope.row.cover_image" alt="" width="60px" height="90px">
-                    </template>
-                </el-table-column>
-                <el-table-column prop="title" label="书名"></el-table-column>
-                <el-table-column prop="author" label="作者"></el-table-column>
-                <el-table-column prop="category_name" label="分类"></el-table-column>
-                <el-table-column prop="isbn" label="国际标准书号"></el-table-column>
-                <el-table-column prop="description" label="书籍简介"></el-table-column>
-                <el-table-column prop="borrowDate" label="创建时间"></el-table-column>
+            <el-table :data="BookCategoryList" stripe>
+                <el-table-column prop="name" label="分类名称"></el-table-column>
                 <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleReturn(scope.row)">
@@ -25,7 +15,7 @@
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 :current-page="currentPage" :page-sizes="[10, 20, 50]" :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper" :total="booksList.length"></el-pagination>
+                layout="total, sizes, prev, pager, next, jumper" :total="BookCategoryList.length"></el-pagination>
         </el-card>
     </div>
 </template>
@@ -37,7 +27,7 @@ export default {
             showEditDialog: false,
             currentPage: 1,
             pageSize: 10,
-            booksList: []
+            BookCategoryList: []
         };
     },
     computed: {
@@ -57,10 +47,10 @@ export default {
         },
         loadData() {
             // 模拟登录成功
-            this.$http.get('api/book/bookList',)
+            this.$http.get('api/manageBook/getBookCategoryList',)
                 .then((response) => {
                     console.log(response)
-                    this.booksList = response.results
+                    this.BookCategoryList = response.results
                 })
                 .catch((error) => {
                     console.error('Login failed:', error);

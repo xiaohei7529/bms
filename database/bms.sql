@@ -28,6 +28,17 @@ CREATE TABLE `book` (
   UNIQUE KEY `isbn` (`isbn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书表';
 
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('文学的魅力', '作者A', 1, '9781234567001', 10, '一本关于文学的书籍', 'path/to/image1.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('科学的未来', '作者B', 2, '9781234567002', 8, '探索科学发展的趋势', 'path/to/image2.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('历史的回响', '作者C', 3, '9781234567003', 6, '历史的重要性和影响', 'path/to/image3.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('技术的变迁', '作者D', 4, '9781234567004', 5, '技术如何改变我们的生活', 'path/to/image4.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('艺术的光辉', '作者E', 5, '9781234567005', 9, '艺术作品背后的故事', 'path/to/image5.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('经济学简史', '作者F', 6, '9781234567006', 12, '一本浅显易懂的经济学书籍', 'path/to/image6.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('哲学的奥秘', '作者G', 7, '9781234567007', 7, '关于哲学问题的讨论', 'path/to/image7.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('医学入门', '作者H', 8, '9781234567008', 15, '医学初学者的指导书', 'path/to/image8.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('心理学探索', '作者I', 9, '9781234567009', 20, '心理学领域的入门书籍', 'path/to/image9.jpg', NULL);
+INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('计算机科学导论', '作者J', 10, '9781234567010', 10, '计算机科学基础知识', 'path/to/image10.jpg', NULL);
+
 
 -- 1. 插入一本图书
 INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
@@ -70,24 +81,25 @@ INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `descript
 VALUES ('War and Peace', 'Leo Tolstoy', 6, '9781400079988', 22, 'A historical novel set during the Napoleonic Wars.', '/images/war_peace.jpg', NOW());
 
 
-CREATE TABLE `borrow_record` (
+CREATE TABLE `book_borrow_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',
   `borrow_date` datetime DEFAULT NULL COMMENT '借阅日期',
   `return_date` datetime DEFAULT NULL COMMENT '归还日期',
   `status` tinyint(4) DEFAULT '0' COMMENT '借阅状态 0.未归还   1. 已归还',
+  `audit_atatus` tinyint(4) DEFAULT '0' COMMENT '审核状态 0.未审核  1.已审核',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='借阅记录表';
 
-CREATE TABLE `category` (
+CREATE TABLE `book_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '分类名称',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书分类表';
 
 
-INSERT INTO `category` (`name`) VALUES 
+INSERT INTO `book_category` (`name`) VALUES 
 ('文学'),
 ('科技'),
 ('历史'),
@@ -97,7 +109,7 @@ INSERT INTO `category` (`name`) VALUES
 
 
 
-CREATE TABLE `bookfavorite` (
+CREATE TABLE `book_favorite` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',

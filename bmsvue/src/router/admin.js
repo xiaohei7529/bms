@@ -24,7 +24,7 @@ const adminRoutes = [
             name: 'booklist',
             component: () => import('@/views/admin/booklist.vue'),
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
           },
           {
@@ -32,7 +32,7 @@ const adminRoutes = [
             name: 'bookaudit',
             component: () => import('@/views/admin/bookaudit.vue'),
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
           },
           {
@@ -40,7 +40,7 @@ const adminRoutes = [
             name: 'bookcategory',
             component: () => import('@/views/admin/bookcategory.vue'),
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
           }
           

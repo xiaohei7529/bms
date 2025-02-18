@@ -41,7 +41,6 @@
               <i class="el-icon-notebook-2"></i>
               <span>图书管理</span>
             </template>
-            <el-menu-item index="add-book">添加图书</el-menu-item>
             <el-menu-item index="admin/booklist">图书列表</el-menu-item>
             <el-menu-item index="admin/bookcategory">图书分类</el-menu-item>
             <el-menu-item index="admin/bookaudit">审批借阅图书</el-menu-item>
@@ -90,6 +89,7 @@ export default {
           type: 'warning'
         }).then(() => {
           this.$message.success('退出登录成功');
+          localStorage.setItem('token', ""); // 存储 Token
           this.$router.push('/login');
         });
       } else if (command === 'profile') {

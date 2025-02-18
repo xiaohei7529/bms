@@ -3,7 +3,7 @@
         
         <h3>待归还图书</h3>
         <el-card class="book-list">
-            <el-table :data="borrowedBooks" stripe>
+            <el-table :data="borrowedBooks" stripe v-loading="loading">
                 <el-table-column prop="cover_image" label="书籍封面">
                     <template slot-scope="scope">
                         <img src="scope.row.cover_image" alt="" width="60px" height="90px">
@@ -33,7 +33,7 @@
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 :current-page="currentPage" :page-sizes="[10, 20, 50]" :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper" :total="borrowedBooks.length"></el-pagination>
+                layout="total, sizes, prev, pager, next, jumper" :total="total_records"></el-pagination>
         </el-card>
     </div>
 </template>
@@ -42,9 +42,11 @@
 export default {
     data() {
         return {
+            loading: false,
             showEditDialog: false,
             currentPage: 1,
             pageSize: 10,
+            total_records: 0,
             borrowedBooks: []
         };
     },
@@ -58,7 +60,7 @@ export default {
         // 同意借阅
         handleReturn(book,status) {
 
-            this.$http.post('api/book/bookAudit',
+            this.$http.post('api/manageBook/bookAudit',
                 {
                     bookid:book.id,
                     status:status
@@ -77,18 +79,27 @@ export default {
 
         },
         handleSizeChange(val) {
-            this.pageSize = val
-            this.currentPage = 1
+            this.pageSize = val;
+            this.currentPage = 1;
+            this.loadData();
         },
         handleCurrentChange(val) {
-            this.currentPage = val
+            this.currentPage = val;
+            this.loadData();
         },
         loadData() {
             // 模拟登录成功
-            this.$http.get('api/book/getBookAuditList',)
+            this.loading = true;
+            this.$http.get('api/manageBook/getBookAuditList',{
+                params: {
+                    page_size:this.pageSize,
+                    page_no:this.currentPage
+                }
+            })
                 .then((response) => {
-                    console.log(response)
-                    this.borrowedBooks = response.results
+                    console.log(response);
+                    this.borrowedBooks = response.results;
+                    this.loading = false;
                 })
                 .catch((error) => {
                     console.error('Login failed:', error);

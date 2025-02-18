@@ -30,7 +30,7 @@ const frontRoutes = [{
       name: 'Product',
       component: () => import('@/views/front/Product.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: false
       }
     },
     {
