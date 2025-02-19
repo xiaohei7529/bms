@@ -54,7 +54,7 @@ const frontRoutes = [{
       name: 'userInfo',
       component: () => import('@/views/front/userInfo.vue'),
       meta: {
-        requiresAuth: false
+        requiresAuth: true
       },
       children: [
         {
@@ -62,7 +62,7 @@ const frontRoutes = [{
           name: 'bookFavorite',
           component: () => import('@/views/front/bookFavorite.vue'),
           meta: {
-            requiresAuth: false
+            requiresAuth: true
           }
         },
         {
@@ -70,7 +70,7 @@ const frontRoutes = [{
           name: 'bookBorrowed',
           component: () => import('@/views/front/bookBorrowed.vue'),
           meta: {
-            requiresAuth: false
+            requiresAuth: true
           }
         },
         {
@@ -78,7 +78,7 @@ const frontRoutes = [{
           name: 'bookPending',
           component: () => import('@/views/front/bookPending.vue'),
           meta: {
-            requiresAuth: false
+            requiresAuth: true
           }
         }
       ]

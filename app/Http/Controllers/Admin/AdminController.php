@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\User;
 
 
 
@@ -33,12 +34,6 @@ class AdminController extends Controller
         if (empty($input['email'])) TEA('700', 'email');
         if (empty($input['password'])) TEA('700', 'password');
 
-        // if (password_verify($input['password'], $user->password)) {
-        //     echo '密码正确';
-        // } else {
-        //     echo '密码错误';
-        // }
-
         // 从请求中获取凭据
         $credentials = $request->only(['email', 'password']);
 
@@ -59,6 +54,7 @@ class AdminController extends Controller
             'access_token'=>$token,
             'token_type'=>'bearer',
             'expires_in'=>3600,
+            'is_superman'=>$user->is_superman,
         ];
 
         return response()->json(get_success_api_response($userInfo));
@@ -68,10 +64,18 @@ class AdminController extends Controller
     // 用户注册
     public function userRegistration(Request $request)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8'
+        ]);
+     
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']), // 密码加密
+        ]);
 
-        $input = $request->all();
-        trim_strings($input);
-        $this->model->userRegistration($input);
         return response()->json(get_success_api_response(200));
     }
 

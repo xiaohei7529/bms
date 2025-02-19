@@ -40,6 +40,25 @@ class ManageBookController extends ApiController
         return response()->json(get_success_api_response(200));
     }
 
+    public function bookUpdate(Request $request)
+    {
+        $input = $request->all();
+        trim_strings($input);
+        $this->model->bookUpdate($input);
+        
+        return response()->json(get_success_api_response(200));
+    }
+
+    public function bookDelete(Request $request)
+    {
+        $input = $request->all();
+        trim_strings($input);
+        $this->model->bookDelete($input);
+        
+        return response()->json(get_success_api_response(200));
+    }
+
+    /**********************************************************************************************************/
     // 图书审批列表
     public function getBookAuditList(Request $request)
     {
@@ -50,14 +69,6 @@ class ManageBookController extends ApiController
         return response()->json(get_success_api_response($obj_list,$paging));
     }
 
-    // 图书分类列表
-    public function getBookCategoryList(Request $request)
-    {
-        $input = $request->all();
-        trim_strings($input);
-        $obj_list = $this->model->getBookCategoryList($input);
-        return response()->json(get_success_api_response($obj_list));
-    }
 
     // 图书审核&拒绝
     public function bookAudit(Request $request)
@@ -69,5 +80,15 @@ class ManageBookController extends ApiController
     }
 
     
+
+    
+    // 图书分类列表
+    public function getBookCategoryList(Request $request)
+    {
+        $input = $request->all();
+        trim_strings($input);
+        $obj_list = $this->model->getBookCategoryList($input);
+        return response()->json(get_success_api_response($obj_list));
+    }
 
 }

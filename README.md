@@ -68,3 +68,32 @@ Book Management System
 
 - **借阅统计**：生成图书借阅的统计报表，分析借阅频率和热门图书。
 - **用户统计**：分析用户借阅行为，提供用户活跃度报告。
+
+
+
+## 部署须知
+1 . 路径 `storage/` 要保证PHP-fpm运行的用户(默认为www-data)有可写可执行权限(参考命令如下)
+ ```bash
+$ sudo chmod -R ug+wx storage/
+```
+2 . 添加软链`public/storage/` --> `storage/app/public/`
+ - Windows (先进项目根目录):
+ ```
+ mklink /J public\storage storage\app\public
+```
+ - Linux (需要使用绝对路径) ：
+ ```
+$ ln -s /path/to/projects/storage/app/public /path/to/projects/public/storage
+```
+
+3 . 优化自动加载（否则会造成 20%-25%的性能损失)）
+
+```
+composer dump-autoload --optimize
+```
+4 . 修改 `.env`文件 主要有三部分
+ - 和数据库相关(以 DB_ 打头)
+ - 和WebService相关 
+ - CLI_HTTP_HOST 
+
+5 . 部署监控队列脚本的软件 `supervior`

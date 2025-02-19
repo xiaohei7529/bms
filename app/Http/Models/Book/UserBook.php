@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\DB;
 class UserBook extends Base
 {
 
+    public function getUser()
+    {
+
+    }
 
 
 }

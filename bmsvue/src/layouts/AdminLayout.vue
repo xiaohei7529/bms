@@ -90,6 +90,7 @@ export default {
         }).then(() => {
           this.$message.success('退出登录成功');
           localStorage.setItem('token', ""); // 存储 Token
+          localStorage.setItem('isLoggedIn', false); // 存储 Token
           this.$router.push('/login');
         });
       } else if (command === 'profile') {

@@ -47,17 +47,9 @@ export default {
   name: 'App',
   data() {
     return {
-      isLoggedIn: false, // 登录状态
+      isLoggedIn: localStorage.getItem('isLoggedIn'), // 登录状态
       userAvatar: "https://via.placeholder.com/150", // 用户头像
       userName: "用户", // 用户名
-      userStore: {
-        Visiable: false,
-        Register: false,
-      },
-      User: {
-        email: '',
-        password: '',
-      },
       searchQuery: "", // 书籍检索输入框的值
       searchType: "all", // 检索类型
       matchType: "any", // 匹配类型
@@ -106,29 +98,12 @@ export default {
     },
   },
   methods: {
-    // 处理登录按钮点击事件
-    handleLogin() {
-      // // 模拟登录成功
-      // this.$http.post('api/auth/userLogin', { email: this.User.email, password: this.User.password })
-      //   .then((response) => {
-      //     localStorage.setItem('token', response.access_token); // 存储 Token
-      //     console.log('Login successful!');
-      //     this.$notify({
-      //       title: '成功',
-      //       message: '登录成功！',
-      //       type: 'success'
-      //     });
 
-      //     this.isLoggedIn = true;
-      //     // this.$message.success("登录成功");
-      //   })
-      //   .catch((error) => {
-      //     console.error('Login failed:', error);
-      //   });
-      this.$router.push({ name: 'login' });
+    handleLogin(){
+        this.$router.push('/login');
     },
-    handleRegister() {
-      this.$router.push({ name: 'register' });
+    handleRegister(){
+        this.$router.push('/register');
     },
     // 处理下拉菜单选项
     handleCommand(command) {
@@ -147,16 +122,19 @@ export default {
     // 处理退出登录
     handleLogout() {
       localStorage.removeItem('token');
+      localStorage.removeItem('isLoggedIn');
       this.isLoggedIn = false;
       this.$message.success("退出登录成功");
     },
     // 处理个人信息
     handleProfile() {
-      this.$message("个人信息功能待实现");
+      this.$router.push(`/userInfo`);
+      // this.$message("个人信息功能待实现");
     },
     // 处理借阅图书
     handleBorrow() {
-      this.$message("借阅图书功能待实现");
+      this.$router.push(`/bookPending`);
+      // this.$message("借阅图书功能待实现");
     },
     // 处理书籍检索
     handleSearch() {

@@ -31,13 +31,18 @@ class UploadController extends ApiController
         trim_strings($request);
         $data = [];
         $data['extension'] = $input['file']->getClientOriginalExtension();//文件后缀
+        $data['image_orgin_name'] = $input['file']->getClientOriginalName();
         //判断文件是否带有 被禁止的后缀
         if (!$data['extension'] || in_array(strtolower($data['extension']), $this->prohibited_extensions)) TEA('1101');//不被允许的文件
         // 设置自定义文件名称
         $extension = bin2hex(random_bytes(16)).'.'.$data['extension'];
         $data['image_path'] = Storage::disk('public')->putFileAs('/drawing' . DIRECTORY_SEPARATOR . date('Y-m-d'), $input['file'],$extension);
         if (empty($data['image_path'])) TEA('7028');//上传失败
-        return response()->json(get_success_api_response(['image_path' => $data['image_path']]));
+        $temp = explode('/', $data['image_path']);
+        $data['image_name'] = end($temp);
+        $insert_id = DB::table('book_image')->insertGetId($data);
+        $pageURL ='http://'.$_SERVER['HTTP_HOST'].'/storage/';
+        return response()->json(get_success_api_response(['uid'=>$insert_id,'name'=>$data['image_orgin_name'],'url' => $pageURL.$data['image_path']]));
     }
 
 

@@ -12,7 +12,7 @@
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
 
             <el-form-item label="图书名称">
-                <el-input v-model="formInline.name"></el-input>
+                <el-input v-model="formInline.title"></el-input>
             </el-form-item>
 
             <el-form-item>
@@ -20,11 +20,13 @@
                 <el-button type="primary" @click="dialogVisible = true">图书添加</el-button>
             </el-form-item>
         </el-form>
+        
+        <!-- 列表 -->
         <el-card class="book-list">
             <el-table :data="booksList" stripe v-loading="loading">
-                <el-table-column prop="cover_image" label="书籍封面">
+                <el-table-column prop="image_url" label="书籍封面">
                     <template slot-scope="scope">
-                        <img src="scope.row.cover_image" alt="" width="60px" height="90px">
+                        <img :src="scope.row.image_url" alt="" width="60px" height="90px">
                     </template>
                 </el-table-column>
                 <el-table-column prop="title" label="书名"></el-table-column>
@@ -33,10 +35,13 @@
                 <el-table-column prop="isbn" label="国际标准书号"></el-table-column>
                 <el-table-column prop="description" label="书籍简介"></el-table-column>
                 <el-table-column prop="create_time" label="创建时间"></el-table-column>
-                <el-table-column label="操作" width="120">
+                <el-table-column label="操作" width="180">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleReturn(scope.row)">
+                        <el-button type="primary" size="mini" @click="handleEdit(scope.row)">
                             编辑
+                        </el-button>
+                        <el-button type="danger" size="mini" @click="handleDel(scope.row)">
+                            删除
                         </el-button>
                     </template>
                 </el-table-column>
@@ -53,8 +58,8 @@
             <el-form :model="bookForm" label-width="100px" :rules="rules" ref="bookForm">
                 <!-- 封面 -->
                 <el-form-item label="封面" prop="cover">
-                    <el-upload action="" :on-success="handleCoverSuccess" :before-upload="beforeCoverUpload" :limit="1"
-                        :on-exceed="handleCoverExceed" :http-request="onFileChange" :file-list="fileList" list-type="picture">
+                    <el-upload action="" :before-upload="beforeCoverUpload" :limit="1" :on-exceed="handleCoverExceed"
+                        :http-request="onFileChange" :file-list="fileList" list-type="picture">
                         <el-button type="primary">点击上传</el-button>
                         <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
                     </el-upload>
@@ -71,8 +76,8 @@
                 </el-form-item>
 
                 <!-- 分类 ID -->
-                <el-form-item label="分类 ID" prop="categoryId">
-                    <el-select v-model="bookForm.categoryId" style="width: 230px;" placeholder="请选择" filterable>
+                <el-form-item label="分类 ID" prop="category_id">
+                    <el-select v-model="bookForm.category_id" style="width: 230px;" placeholder="请选择" filterable>
                         <el-option v-for="item in bookCategory" :key="item.id" :label="item.name" :value="item.id">
                         </el-option>
                     </el-select>
@@ -104,6 +109,8 @@
 </template>
 
 <script>
+import url from 'postcss-url';
+
 export default {
     data() {
         return {
@@ -114,15 +121,15 @@ export default {
             total_records: 0,
             booksList: [],
             formInline: {
-                name: ''
+                title: ''
             },
             dialogVisible: false, // 控制 Dialog 显示
             bookCategory: [],
             bookForm: {
-                cover: "", // 封面
+                image_id: "", // 封面
                 title: "", // 书名
                 author: "", // 作者
-                categoryId: "", // 分类 ID
+                category_id: "", // 分类 ID
                 isbn: "", // 国际标准书号
                 stock: 0, // 库存数量
                 description: "", // 书籍简介
@@ -136,8 +143,8 @@ export default {
                 stock: [{ required: true, message: "请输入库存数量", trigger: "blur" }],
                 description: [{ required: true, message: "请输入书籍简介", trigger: "blur" }],
             },
-            selectedFiles:[],
-            fileList:[],
+            selectedFiles: [],
+            fileList: [],
         };
     },
     computed: {
@@ -153,7 +160,6 @@ export default {
             if (newVal == false) return false;
             this.$http.get('api/manageBook/getBookCategoryList',)
                 .then((response) => {
-                    console.log(response)
                     this.bookCategory = response.results;
                 })
                 .catch((error) => {
@@ -176,12 +182,12 @@ export default {
             this.loading = true;
             this.$http.get('api/manageBook/bookList', {
                 params: {
+                    title:this.formInline.title,
                     page_size: this.pageSize,
                     page_no: this.currentPage
                 }
             })
                 .then((response) => {
-                    console.log(response)
                     this.total_records = response.paging.total_records;
                     this.booksList = response.results;
                     this.loading = false;
@@ -213,7 +219,10 @@ export default {
             });
         },
         bookstore() {
-            this.$http.post('api/manageBook/bookStore', this.bookForm)
+            let url = 'api/manageBook/bookStore';
+            if (this.bookForm.id > 0) url = 'api/manageBook/bookUpdate';
+            this.bookForm.image_id = this.fileList[0].uid;
+            this.$http.post(url, this.bookForm)
                 .then((response) => {
                     console.log(response);
                     this.loadData();
@@ -229,11 +238,8 @@ export default {
         // 重置表单
         resetForm() {
             this.$refs.bookForm.resetFields();
-        },
-        // 封面上传成功
-        handleCoverSuccess(response, file) {
-            this.bookForm.cover = URL.createObjectURL(file.raw);
-            this.$message.success("封面上传成功！");
+            this.fileList = [];
+            this.selectedFiles = [];
         },
         // 封面上传前的校验
         beforeCoverUpload(file) {
@@ -258,20 +264,6 @@ export default {
             console.log(event)
             // 当文件输入发生变化时，获取用户选择的文件列表
             if (!event.target) {
-                const file = event.file,
-                fileType = file.type,
-
-                isImage = fileType.indexOf('image') !== -1,
-                isLt100M = file.size / 1024 / 1024 < 100;
-
-                if (!isImage) {
-                    this.$message.error('只能上传图片格式png、jpg、gif!');
-                    return;
-                }
-                if (!isLt100M) {
-                    this.$message.error('只能上传图片大小小于10M');
-                    return;
-                }
                 this.selectedFiles.push(event.file);
             } else {
                 this.selectedFiles = event.target.files;
@@ -304,13 +296,42 @@ export default {
                 // 处理上传成功后的响应
                 console.log('文件上传成功:', response);
                 //上传附件
-                this.fileList.push(response.data.results);
+                this.fileList.push(response.results);
                 this.selectedFiles = [];
             }).catch(error => {
                 // 处理上传失败的情况
                 console.error('文件上传失败:', error);
             });
         },
+        handleEdit(row) {
+            this.bookForm = row;
+            this.fileList.push({ uid: row.image_id, url: row.image_url })
+            this.dialogVisible = true;
+        },
+        handleDel(row) {
+            this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$http.post('api/manageBook/bookDelete', { id: row.id })
+                    .then((response) => {
+                        this.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        this.loadData();
+                    })
+                    .catch((error) => {
+                        console.error('Login failed:', error);
+                    });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
+        }
     }
 };
 </script>

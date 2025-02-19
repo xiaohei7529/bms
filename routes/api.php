@@ -19,6 +19,7 @@
 
 $router->get('api/auth/userLogin','Admin\AdminController@userLogin');//登录
 $router->post('api/auth/userLogin','Admin\AdminController@userLogin');//登录
+$router->post('api/auth/userRegister','Admin\AdminController@userRegistration');//注册
 
 
 
@@ -42,14 +43,16 @@ $router->get('api/refresh','AuthController@refresh'); // 刷新 Token
  */
 
  // 图书数据
- $router->get('api/manageBook/bookList','Book\ManageBookController@getBookList'); 
- $router->post('api/manageBook/bookStore','Book\ManageBookController@bookStore'); 
+ $router->get('api/manageBook/bookList','Book\ManageBookController@getBookList');
+ $router->post('api/manageBook/bookStore','Book\ManageBookController@bookStore');
+ $router->post('api/manageBook/bookUpdate','Book\ManageBookController@bookUpdate');
+ $router->post('api/manageBook/bookDelete','Book\ManageBookController@bookDelete');
 
 
  // 分类数据
- $router->get('api/manageBook/getBookCategoryList','Book\ManageBookController@getBookCategoryList'); 
+ $router->get('api/manageBook/getBookCategoryList','Book\ManageBookController@getBookCategoryList');
  
 
  // 待审核数据
- $router->get('api/manageBook/getBookAuditList','Book\ManageBookController@getBookAuditList'); 
- $router->post('api/manageBook/bookAudit','Book\ManageBookController@bookAudit'); 
+ $router->get('api/manageBook/getBookAuditList','Book\ManageBookController@getBookAuditList');
+ $router->post('api/manageBook/bookAudit','Book\ManageBookController@bookAudit');

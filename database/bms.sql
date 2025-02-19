@@ -19,14 +19,15 @@ CREATE TABLE `book` (
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '书名',
   `author` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '作者',
   `category_id` int(11) NOT NULL DEFAULT '0' COMMENT '分类id',
-  `isbn` varchar(13) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '国际标准书号',
-  `stock` int(11) DEFAULT '0' COMMENT '库存数量',
-  `description` text COLLATE utf8_unicode_ci COMMENT '书籍简介',
-  `cover_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '封面图纸路径',
-  `create_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `isbn` varchar(13) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '国际标准书号',
+  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '库存数量',
+  `description` text COLLATE utf8_unicode_ci NOT NULL COMMENT '书籍简介',
+  `image_id` int(11) DEFAULT '0' COMMENT '封面图纸路径',
+  `is_delete` tinyint(2) DEFAULT '0' COMMENT '是否删除 0. 否  1.是',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `isbn` (`isbn`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书表';
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图书表';
 
 INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('文学的魅力', '作者A', 1, '9781234567001', 10, '一本关于文学的书籍', 'path/to/image1.jpg', NULL);
 INSERT INTO `book`( `title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`) VALUES ('科学的未来', '作者B', 2, '9781234567002', 8, '探索科学发展的趋势', 'path/to/image2.jpg', NULL);
@@ -116,3 +117,14 @@ CREATE TABLE `book_favorite` (
   `ctime` datetime DEFAULT NULL COMMENT '收藏时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='收藏记录表';
+
+
+CREATE TABLE `book_image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片名称',
+  `image_orgin_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片上传之前的名称',
+  `image_path` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片路径',
+  `extension` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片后缀',
+  `ctime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT= DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图纸记录表';
