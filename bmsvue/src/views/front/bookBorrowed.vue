@@ -17,7 +17,7 @@
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 :current-page="currentPage" :page-sizes="[10, 20, 50]" :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper" :total="borrowedBooks.length"></el-pagination>
+                layout="total, sizes, prev, pager, next, jumper" :total="total_records"></el-pagination>
         </el-card>
     </div>
 </template>
@@ -28,30 +28,17 @@ export default {
         return {
             currentPage: 1,
             pageSize: 10,
+            total_records: 0,
             activeMenu: 'bookProfile', // 当前选中的菜单项
             showEditDialog: false,
-            borrowedBooks: [
-                {
-                    id: 1,
-                    title: 'Vue.js 实战',
-                    author: '李四',
-                    borrowDate: '2023-10-01',
-                    returnDate: '2023-11-01',
-                    status: '已归还'
-                },
-                {
-                    id: 2,
-                    title: 'JavaScript 高级程序设计',
-                    author: '王五',
-                    borrowDate: '2023-10-15',
-                    returnDate: '2023-11-15',
-                    status: '借阅中'
-                }
-            ]
+            borrowedBooks:[]
         };
     },
     computed: {
 
+    },
+    created() {
+        this.loadData();
     },
     methods: {
         handleSizeChange(val) {
@@ -61,6 +48,23 @@ export default {
         handleCurrentChange(val) {
             this.currentPage = val
         },
+        loadData() {
+            this.loading = true;
+            this.$http.get('api/userBook/getBorrowedBooksList',{
+                params: {
+                    page_size:this.pageSize,
+                    page:this.currentPage
+                }
+            }).then(response => {
+                this.total_records = response.paging.total_records;
+                this.borrowedBooks = response.results;
+                this.loading = false;
+            }).catch(error => {
+                console.error('Login failed:', error);
+                this.loading = false;
+            });
+
+        }
     }
 };
 </script>

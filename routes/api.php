@@ -56,3 +56,16 @@ $router->get('api/refresh','AuthController@refresh'); // 刷新 Token
  // 待审核数据
  $router->get('api/manageBook/getBookAuditList','Book\ManageBookController@getBookAuditList');
  $router->post('api/manageBook/bookAudit','Book\ManageBookController@bookAudit');
+
+ /**
+  * 前台主页数据
+  */
+  // 热门借阅
+  $router->get('api/book/hot','Book\BookController@hot');
+  // 热门收藏
+  $router->get('api/book/collect','Book\BookController@collect');
+  // 高分图书
+  $router->get('api/book/score','Book\BookController@score');
+  // 新书上架
+  $router->get('api/book/new','Book\BookController@new');
+

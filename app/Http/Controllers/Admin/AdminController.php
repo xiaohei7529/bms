@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -61,19 +62,26 @@ class AdminController extends Controller
     }
 
     
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+
     // 用户注册
     public function userRegistration(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8'
-        ]);
+        $input = $request->all();
      
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']), // 密码加密
+        $this->validator($request->all())->validate();
+
+        User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'password' => bcrypt($input['password']), // 密码加密
         ]);
 
         return response()->json(get_success_api_response(200));

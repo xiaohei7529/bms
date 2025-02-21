@@ -141,7 +141,7 @@ export default {
             try {
                 const response = await this.$http.post('api/auth/userRegister', {
                     email: this.email,
-                    username: this.username,
+                    name: this.username,
                     password: this.password,
                 });
                 // 处理返回结果

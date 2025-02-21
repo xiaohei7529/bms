@@ -71,6 +71,10 @@ export default {
             }
         };
     },
+    created() {
+        // 模拟从后端获取图书信息
+        this.fetchBookDetails();
+    },
     methods: {
         handleBorrow() {
             this.$confirm('确定要借阅这本书吗？', '借阅确认', {
@@ -82,23 +86,17 @@ export default {
             }).catch(() => { })
         },
        
-        async submitBorrowRequest() {
-            try {
-                this.loading = true
-                // 模拟 API 请求
-                await new Promise(resolve => setTimeout(resolve, 1000))
-
-                // 借阅成功逻辑
-                this.book.isBorrowed = true
-                this.$message({
-                    type: 'success',
-                    message: '借阅成功！请到个人中心查看'
-                })
-            } catch (error) {
-                this.$message.error('借阅失败，请稍后重试')
-            } finally {
-                this.loading = false
-            }
+        submitBorrowRequest() {
+            this.$http.post('/api/userBook/borrowBook',{
+                book_id:this.$route.query.book_id
+            })
+               .then(response => {
+                    // 更新成功后，重新加载数据
+                    this.$message.success('借阅成功');
+                    this.book.isBorrowed = true
+                }).catch(error => {
+                    this.$message.error('借阅失败');
+                });
         },
         handleReturn() {
             this.$confirm('确定要归还这本书吗？', '归还确认', {
@@ -109,24 +107,33 @@ export default {
                 this.submitReturnRequest()
             }).catch(() => { })
         },
-        async submitReturnRequest() {
-            try {
-                this.loading = true
-                // 模拟 API 请求
-                await new Promise(resolve => setTimeout(resolve, 1000))
-
-                // 借阅成功逻辑
-                this.book.isBorrowed = true
-                this.$message({
-                    type: 'success',
-                    message: '归还成功！请到个人中心查看'
-                })
-            } catch (error) {
-                this.$message.error('归还失败，请稍后重试')
-            } finally {
-                this.loading = false
-            }
+        submitReturnRequest() {
+           this.$http.post('/api/userBook/returnBook',{
+                book_id:this.$route.query.book_id
+            })
+              .then(response => {
+                    // 更新成功后，重新加载数据
+                    this.$message.success('归还成功');
+                    this.book.isBorrowed = false
+                }).catch(error => {
+                    this.$message.error('归还失败');
+                });
         },
+        fetchBookDetails() {
+            // 模拟从后端获取图书信息
+            // 这里可以调用后端接口获取图书详细信息
+            this.$http.get('/api/userBook/fetchBookDetails',{
+                params:{
+                    book_id:this.$route.query.book_id
+                }
+            })
+                .then(response => {
+                    this.book = response.results;
+                })
+                .catch(error => {
+                    console.error('获取图书详情失败:', error)
+                })
+        }
     }
 
 };

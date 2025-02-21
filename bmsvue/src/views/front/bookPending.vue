@@ -17,7 +17,7 @@
             </el-table>
             <el-pagination class="pagination" @size-change="handleSizeChange" @current-change="handleCurrentChange"
                 :current-page="currentPage" :page-sizes="[10, 20, 50]" :page-size="pageSize"
-                layout="total, sizes, prev, pager, next, jumper" :total="pendingReturnBooks.length"></el-pagination>
+                layout="total, sizes, prev, pager, next, jumper" :total="total_records"></el-pagination>
         </el-card>
     </div>
 </template>
@@ -29,45 +29,60 @@ export default {
             showEditDialog: false,
             currentPage: 1,
             pageSize: 10,
-            borrowedBooks: [
-                {
-                    id: 1,
-                    title: 'Vue.js 实战',
-                    author: '李四',
-                    borrowDate: '2023-10-01',
-                    returnDate: '2023-11-01',
-                    status: '已归还'
-                },
-                {
-                    id: 2,
-                    title: 'JavaScript 高级程序设计',
-                    author: '王五',
-                    borrowDate: '2023-10-15',
-                    returnDate: '2023-11-15',
-                    status: '借阅中'
-                }
-            ]
+            total_records:0,
+            pendingReturnBooks: []
         };
     },
     computed: {
-        // 待归还图书
-        pendingReturnBooks() {
-            return this.borrowedBooks.filter(book => book.status === '借阅中');
-        }
+        
+    },
+    created() {
+        this.loadData();
     },
     methods: {
         // 归还图书
         handleReturn(book) {
+            // 更新图书状态
             book.status = '已归还';
-            this.$message.success('归还成功');
+
+            // 发送请求更新图书状态
+            this.$http.post('api/userBook/returnBook', {
+                bookId: book.id
+            })
+            .then(response => {
+                // 更新成功后，重新加载数据
+                this.$message.success('归还成功');
+                // this.loadData();
+            }).catch(error => {
+                this.$message.error('归还失败');
+            });
+
         },
         handleSizeChange(val) {
             this.pageSize = val
             this.currentPage = 1
+            this.loadData();
         },
         handleCurrentChange(val) {
             this.currentPage = val
+            this.loadData();
         },
+        loadData() {
+            this.loading = true;
+            this.$http.get('api/userBook/getPendingReturnBooksList',{
+                params: {
+                    page_size:this.pageSize,
+                    page:this.currentPage
+                }
+            }).then(response => {
+                this.total_records = response.paging.total_records;
+                this.pendingReturnBooks = response.results;
+                this.loading = false;
+            }).catch(error => {
+                this.$message.error('获取借阅记录失败');
+                this.loading = false;
+            });
+        }
     }
 };
 </script>

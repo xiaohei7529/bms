@@ -8,7 +8,8 @@
                     <template slot-scope="scope">
                         <img src="scope.row.cover_image" alt="" width="60px" height="90px">
                     </template>
-                </el-table-column>                <el-table-column prop="book_name" label="书名"></el-table-column>
+                </el-table-column>
+                <el-table-column prop="book_name" label="书名"></el-table-column>
                 <el-table-column prop="book_author" label="作者"></el-table-column>
                 <el-table-column prop="user_name" label="借阅人"></el-table-column>
                 <el-table-column prop="borrow_date" label="借阅日期"></el-table-column>
