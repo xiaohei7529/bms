@@ -5,7 +5,7 @@
             <el-table :data="favoriteBooks" stripe>
                 <el-table-column prop="title" label="书名"></el-table-column>
                 <el-table-column prop="author" label="作者"></el-table-column>
-                <el-table-column prop="category" label="分类"></el-table-column>
+                <el-table-column prop="category_name" label="分类"></el-table-column>
                 <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
                         <el-button type="danger" size="mini" @click="removeFavorite(scope.row)">
@@ -50,7 +50,12 @@ export default {
         },
         loadData() {
             this.loading = true;
-            this.$http.get('/api/userBook/getfavoriteBookList')
+            this.$http.get('/api/userBook/getFavoriteBookList',{
+                params: {
+                    page_size:this.pageSize,
+                    page_no:this.currentPage
+                }
+            })
                 .then(response => {
                     this.total_records = response.paging.total_records;
                     this.favoriteBooks = response.results;
@@ -66,7 +71,7 @@ export default {
             this.favoriteBooks = this.favoriteBooks.filter(item => item.id !== book.id);
             this.$http.post('/api/userBook/removeFavorite',
                 {
-                    book_id: book.id
+                    book_id: book.book_id
                 })
                 .then(response => {
                     this.$message.success('已取消收藏');

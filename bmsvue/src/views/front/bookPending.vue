@@ -5,8 +5,8 @@
             <el-table :data="pendingReturnBooks" stripe>
                 <el-table-column prop="title" label="书名"></el-table-column>
                 <el-table-column prop="author" label="作者"></el-table-column>
-                <el-table-column prop="borrowDate" label="借阅日期"></el-table-column>
-                <el-table-column prop="returnDate" label="应还日期"></el-table-column>
+                <el-table-column prop="borrow_date" label="借阅日期"></el-table-column>
+                <el-table-column prop="return_date" label="应还日期"></el-table-column>
                 <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleReturn(scope.row)">
@@ -47,7 +47,7 @@ export default {
 
             // 发送请求更新图书状态
             this.$http.post('api/userBook/returnBook', {
-                bookId: book.id
+                bookId: book.book_id
             })
             .then(response => {
                 // 更新成功后，重新加载数据
@@ -72,7 +72,7 @@ export default {
             this.$http.get('api/userBook/getPendingReturnBooksList',{
                 params: {
                     page_size:this.pageSize,
-                    page:this.currentPage
+                    page_no:this.currentPage
                 }
             }).then(response => {
                 this.total_records = response.paging.total_records;

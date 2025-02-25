@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Book;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\ApiController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Models\Book\Book;
 
 
-class BookController extends Controller
+class BookController extends ApiController
 {
     protected $model;
 

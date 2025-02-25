@@ -207,7 +207,7 @@ body {
 }
 
 .custom-container {
-    height: 700px;
+    /* height: 700px; */
     border: 1px solid #eee;
     background-image: url('../assets/register.jpg');
     background-size: cover;

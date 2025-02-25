@@ -5,12 +5,12 @@
             <el-table :data="borrowedBooks" stripe>
                 <el-table-column prop="title" label="书名"></el-table-column>
                 <el-table-column prop="author" label="作者"></el-table-column>
-                <el-table-column prop="borrowDate" label="借阅日期"></el-table-column>
-                <el-table-column prop="returnDate" label="应还日期"></el-table-column>
+                <el-table-column prop="borrow_date" label="借阅日期"></el-table-column>
+                <el-table-column prop="return_date" label="归还日期"></el-table-column>
                 <el-table-column label="状态" width="120">
                     <template slot-scope="scope">
-                        <el-tag :type="scope.row.status === '已归还' ? 'success' : 'warning'">
-                            {{ scope.row.status }}
+                        <el-tag :type="scope.row.borrow_status === 1 ? 'success' : 'warning'">
+                            {{ scope.row.borrow_status === 1 ? '已归还' : '未归还' }}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -53,7 +53,7 @@ export default {
             this.$http.get('api/userBook/getBorrowedBooksList',{
                 params: {
                     page_size:this.pageSize,
-                    page:this.currentPage
+                    page_no:this.currentPage
                 }
             }).then(response => {
                 this.total_records = response.paging.total_records;

@@ -69,3 +69,24 @@ $router->get('api/refresh','AuthController@refresh'); // 刷新 Token
   // 新书上架
   $router->get('api/book/new','Book\BookController@new');
 
+
+  /**
+   * 用户图书
+   */
+  $router->get('api/userBook/getUser','Book\UserBookController@getUser');
+
+  // 收藏图书
+  $router->get('api/userBook/getFavoriteBookList','Book\UserBookController@getFavoriteBookList');
+  // 移除收藏图书
+  $router->post('api/userBook/removeFavorite','Book\UserBookController@removeFavorite');
+
+
+  // 借阅图书
+  $router->get('api/userBook/getBorrowedBooksList','Book\UserBookController@getBorrowedBooksList');
+
+
+
+  // 待归还图书
+  $router->get('api/userBook/getPendingReturnBooksList','Book\UserBookController@getPendingReturnBooksList');
+  // 归还图书
+  $router->post('api/userBook/returnBook','Book\UserBookController@returnBook');

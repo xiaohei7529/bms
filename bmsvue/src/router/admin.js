@@ -46,7 +46,7 @@ const adminRoutes = [
           
         ],
         meta: {
-            requiresAuth: false
+            requiresAuth: true
         }
       }
   ];

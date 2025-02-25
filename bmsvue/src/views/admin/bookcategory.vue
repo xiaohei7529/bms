@@ -17,17 +17,38 @@
                 :current-page="currentPage" :page-sizes="[10, 20, 50]" :page-size="pageSize"
                 layout="total, sizes, prev, pager, next, jumper" :total="BookCategoryList.length"></el-pagination>
         </el-card>
+
+        
+        <el-dialog title="编辑分类" :visible.sync="showEditDialog" width="30%">
+            <el-form :model="editForm" label-width="120px">
+                <el-form-item label="分类名称">
+                    <el-input v-model="editForm.name"></el-input>   
+                </el-form-item>
+                <el-form-item label="排序">
+                    <el-input v-model="editForm.sort"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="handleEdit">确定</el-button>
+                    <el-button @click="showEditDialog = false">取消</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
     </div>
+
+
 </template>
 
 <script>
+import { h } from 'vue';
+
 export default {
     data() {
         return {
             showEditDialog: false,
             currentPage: 1,
             pageSize: 10,
-            BookCategoryList: []
+            BookCategoryList: [],
+            editForm:[]
         };
     },
     computed: {
@@ -43,7 +64,8 @@ export default {
             this.currentPage = 1
         },
         handleCurrentChange(val) {
-            this.currentPage = val
+            this.currentPage = val;
+            this.loadData();
         },
         loadData() {
             // 模拟登录成功
@@ -55,6 +77,9 @@ export default {
                 .catch((error) => {
                     console.error('Login failed:', error);
                 });
+        },
+        handleEdit(){
+            
         }
     }
 };

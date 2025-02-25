@@ -27,8 +27,6 @@ class ManageBook extends Base
 
         $obj_list = $builder->get();
 
-        $pageURL ='http://'.$_SERVER['HTTP_HOST'].'/storage/';
-
         foreach($obj_list as $item){
             $item->image_url = $this->get_image_url($item->image_path);
         }
