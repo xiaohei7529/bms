@@ -17,7 +17,7 @@
 
             <el-form-item>
                 <el-button type="primary" @click="loadData">查询</el-button>
-                <el-button type="primary" @click="dialogVisible = true">图书添加</el-button>
+                <el-button type="primary" @click="openDialog('add')">图书添加</el-button>
             </el-form-item>
         </el-form>
         
@@ -33,11 +33,15 @@
                 <el-table-column prop="author" label="作者"></el-table-column>
                 <el-table-column prop="category_name" label="分类"></el-table-column>
                 <el-table-column prop="isbn" label="国际标准书号"></el-table-column>
+                <el-table-column prop="publisher" label="出版社"></el-table-column>
+                <el-table-column prop="publish_date" label="出版日期"></el-table-column>
+
+                <el-table-column prop="stock" label="库存数量"></el-table-column>
                 <el-table-column prop="description" label="书籍简介"></el-table-column>
                 <el-table-column prop="create_time" label="创建时间"></el-table-column>
                 <el-table-column label="操作" width="180">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="handleEdit(scope.row)">
+                        <el-button type="primary" size="mini" @click="openDialog('edit',scope.row)">
                             编辑
                         </el-button>
                         <el-button type="danger" size="mini" @click="handleDel(scope.row)">
@@ -53,7 +57,7 @@
 
 
         <!-- 添加图书 Dialog -->
-        <el-dialog title="添加图书" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+        <el-dialog :title=dialogTitle :visible.sync="dialogVisible" v-if="dialogVisible" width="30%" :before-close="handleClose">
             <!-- 表单 -->
             <el-form :model="bookForm" label-width="100px" :rules="rules" ref="bookForm">
                 <!-- 封面 -->
@@ -86,6 +90,16 @@
                 <!-- 国际标准书号 -->
                 <el-form-item label="ISBN" prop="isbn">
                     <el-input v-model="bookForm.isbn" placeholder="请输入国际标准书号"></el-input>
+                </el-form-item>
+
+                <!-- 出版社 -->
+                <el-form-item label="出版社" prop="publisher">
+                    <el-input v-model="bookForm.publisher" placeholder="请输入出版社"></el-input>
+                </el-form-item>
+
+                <!-- 出版日期 -->
+                <el-form-item label="出版日期" prop="publish_date">
+                    <el-date-picker v-model="bookForm.publish_date" type="date" placeholder="请选择出版日期"></el-date-picker>
                 </el-form-item>
 
                 <!-- 库存数量 -->
@@ -123,6 +137,7 @@ export default {
             formInline: {
                 title: ''
             },
+            dialogTitle:"添加图书",
             dialogVisible: false, // 控制 Dialog 显示
             bookCategory: [],
             bookForm: {
@@ -131,6 +146,8 @@ export default {
                 author: "", // 作者
                 category_id: "", // 分类 ID
                 isbn: "", // 国际标准书号
+                publisher: "", // 出版社
+                publish_date: "", // 出版日期
                 stock: 0, // 库存数量
                 description: "", // 书籍简介
             },
@@ -138,8 +155,10 @@ export default {
             rules: {
                 title: [{ required: true, message: "请输入书名", trigger: "blur" }],
                 author: [{ required: true, message: "请输入作者", trigger: "blur" }],
-                categoryId: [{ required: true, message: "请输入分类 ID", trigger: "change" }],
+                category_id: [{ required: true, message: "请输入分类 ID", trigger: "change" }],
                 isbn: [{ required: true, message: "请输入国际标准书号", trigger: "blur" }],
+                publisher: [{ required: true, message: "请输入出版社", trigger: "blur" }],
+                publish_date: [{ required: true, message: "请输入出版日期", trigger: "blur" }],
                 stock: [{ required: true, message: "请输入库存数量", trigger: "blur" }],
                 description: [{ required: true, message: "请输入书籍简介", trigger: "blur" }],
             },
@@ -153,19 +172,17 @@ export default {
 
     created() {
         this.loadData();
+        this.$http.get('api/manageBook/getBookCategoryList')
+            .then((response) => {
+                this.bookCategory = response.results;
+            })
+            .catch((error) => {
+                console.error('Login failed:', error);
+            });
     },
     watch: {
         // 使用 watch 监听 字段
-        'dialogVisible'(newVal, oldVal) {
-            if (newVal == false) return false;
-            this.$http.get('api/manageBook/getBookCategoryList',)
-                .then((response) => {
-                    this.bookCategory = response.results;
-                })
-                .catch((error) => {
-                    console.error('Login failed:', error);
-                });
-        }
+        
     },
     methods: {
         handleSizeChange(val) {
@@ -196,14 +213,23 @@ export default {
                     console.error('Login failed:', error);
                 });
         },
+        
+        openDialog(mode, row) {
+            if (mode === 'add') {
+                this.bookForm = this.$options.data().bookForm; // 重置为初始值
+            } else {
+                this.dialogTitle = '编辑图书';
+                this.bookForm = { ...row }; // 深拷贝编辑数据
+                this.fileList = [{ uid: this.bookForm.image_id, url: this.bookForm.image_url }];
+            }
+            this.dialogVisible = true;
+        },
         // 关闭 Dialog 前的回调
         handleClose(done) {
-            this.$confirm("确认关闭？")
-                .then(() => {
-                    this.resetForm(); // 重置表单
-                    done();
-                })
-                .catch(() => { });
+            this.$refs.bookForm.resetFields(); // 重置到组件初次渲染时的初始值
+            this.dialogTitle = '添加图书';
+            this.fileList = [];
+            done();
         },
         // 提交表单
         submitForm() {
@@ -302,11 +328,6 @@ export default {
                 // 处理上传失败的情况
                 console.error('文件上传失败:', error);
             });
-        },
-        handleEdit(row) {
-            this.bookForm = row;
-            this.fileList.push({ uid: row.image_id, url: row.image_url })
-            this.dialogVisible = true;
         },
         handleDel(row) {
             this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {

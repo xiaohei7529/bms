@@ -6,7 +6,6 @@
                 <el-table-column prop="title" label="书名"></el-table-column>
                 <el-table-column prop="author" label="作者"></el-table-column>
                 <el-table-column prop="borrow_date" label="借阅日期"></el-table-column>
-                <el-table-column prop="return_date" label="应还日期"></el-table-column>
                 <el-table-column label="操作" width="120">
                     <template slot-scope="scope">
                         <el-button type="primary" size="mini" @click="handleReturn(scope.row)">

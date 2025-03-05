@@ -46,6 +46,8 @@ class ManageBook extends Base
             'author'=>$input['author'],
             'category_id'=>$input['category_id'],
             'isbn'=>$input['isbn'],
+            'publisher'=>$input['publisher'],
+            'publish_date'=>$input['publish_date'],
             'stock'=>$input['stock'],
             'description'=>$input['description'],
             'image_id'=>$input['image_id'],
@@ -80,9 +82,10 @@ class ManageBook extends Base
         return $obj_list;
     }
 
+    // 图书审核&拒绝
     public function bookAudit($input)
     {
-        
+        DB::table('book_borrow_record')->where('id',$input['id'])->update(['audit_atatus'=>$input['audit_atatus']]);
     }
 
 

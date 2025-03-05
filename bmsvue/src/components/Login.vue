@@ -152,7 +152,9 @@ export default {
                 // 处理返回结果
                 if (response.code == "200") {
                     localStorage.setItem('token', response.results.access_token); // 存储 Token
-                    localStorage.setItem('isLoggedIn', true); // 存储 Token
+                    localStorage.setItem('isLoggedIn', true); // 存储 登录状态
+                    localStorage.setItem('userRole', response.results.is_superman); // 存储 用户角色
+                    localStorage.setItem('user', JSON.stringify(response.results)); // 存储 用户信息
 
                     this.$notify({
                         title: '成功',

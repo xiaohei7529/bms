@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Book;
 
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Models\Book\Book;
 
 
-class BookController extends ApiController
+class BookController extends Controller
 {
     protected $model;
 
@@ -53,4 +53,12 @@ class BookController extends ApiController
         return response()->json(get_success_api_response($obj_list));
     }
     
+    // 获取图书详情
+    public function fetchBookDetails(Request $request)
+    {
+        $input = $request->all();
+        trim_strings($input);
+        $res = $this->model->fetchBookDetails($input);
+        return response()->json(get_success_api_response($res));
+    }
 }

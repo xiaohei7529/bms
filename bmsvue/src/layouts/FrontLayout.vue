@@ -26,11 +26,12 @@
           <div v-else>
             <el-dropdown @command="handleCommand">
               <div class="user-avatar">
-                <el-avatar :size="40" :src="userAvatar"></el-avatar>
+                <el-avatar :size="40" :src="userAvatar"> {{ user.name }} </el-avatar>
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="profile">个人信息</el-dropdown-item>
                 <el-dropdown-item command="borrow">借阅图书</el-dropdown-item>
+                <el-dropdown-item command="admin" v-if="isAdmin">后台管理</el-dropdown-item>
                 <el-dropdown-item command="logout">退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -48,6 +49,8 @@ export default {
   data() {
     return {
       isLoggedIn: localStorage.getItem('isLoggedIn'), // 登录状态
+      userRole: localStorage.getItem('userRole'), // 用户角色
+      user: localStorage.getItem('user'), // 用户信息
       userAvatar: "https://via.placeholder.com/150", // 用户头像
       userName: "用户", // 用户名
       searchQuery: "", // 书籍检索输入框的值
@@ -96,6 +99,12 @@ export default {
       }
       return [];
     },
+    isAdmin() {
+      return this.userRole === "1";
+    },
+  },
+  created() {
+    // console.log(this.user);
   },
   methods: {
 
@@ -120,11 +129,20 @@ export default {
       }
     },
     // 处理退出登录
-    handleLogout() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('isLoggedIn');
-      this.isLoggedIn = false;
-      this.$message.success("退出登录成功");
+    async handleLogout() {
+
+      const response = await this.$http.post('api/auth/userLogout')
+
+      // 处理返回结果
+      if (response.code == "200") {
+        localStorage.removeItem('token');
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('user');
+        this.isLoggedIn = false;
+        this.$message.success("退出登录成功");
+        this.$router.push('/');
+      }
     },
     // 处理个人信息
     handleProfile() {

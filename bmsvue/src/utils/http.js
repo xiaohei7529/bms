@@ -27,6 +27,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   
   (response) => {
+    console.log(response)
     if (response && (response.data.code === 401 || response.data.code === 422)) {
       // 可以在此添加跳转逻辑
       toLogin();

@@ -50,7 +50,10 @@ class AdminController extends Controller
         $user = DB::table('users')->where('email', $input['email'])->first();
         $userInfo = [
             'id'=>$user->id,
+            'name'=>$user->name,
             'username'=>$user->name,
+            'email'=>$user->email,
+            'registerDate'=>$user->created_at,
             'last_login_time'=>time(),
             'access_token'=>$token,
             'token_type'=>'bearer',
@@ -87,5 +90,12 @@ class AdminController extends Controller
         return response()->json(get_success_api_response(200));
     }
 
+    // 用户退出
+    public function userLogout(Request $request)
+    {
+        JWTAuth::invalidate(JWTAuth::getToken());
+        Auth::logout();
+        return response()->json(get_success_api_response(200));
+    }
 
 }

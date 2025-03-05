@@ -104,6 +104,7 @@ export default {
     return {
       activeMenu: 'bookProfile', // 当前选中的菜单项
       showEditDialog: false,
+      user: localStorage.getItem('user'),
       user: {
         name: '张三',
         username: 'zhangsan',
@@ -116,6 +117,9 @@ export default {
   },
   computed: {
 
+  },
+  created() {
+    // this.user = this.$store.state.user;
   },
   methods: {
     // 菜单项选择

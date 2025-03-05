@@ -13,6 +13,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 INSERT INTO `users`(`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `is_superman`) VALUES 
 (1, 'admin', 'admin@163.com', NULL, '$2y$10$OLz7cihokYFEx4rc/YPeHezw9FJWR5C1agT9UZ9B5dD9smYvGG6Ci', 'eF6b9GQCPCpBCstPPyIPRoRR148QcL1nX0ufFnxszyFdPjd4B6kB7n64RduE', '2024-01-24 09:10:23', '2024-01-24 09:10:23', 1);
+ALTER TABLE `users` 
+ADD COLUMN `is_disable` tinyint(1) NULL DEFAULT 0 COMMENT '是否禁用 0.否 1.是' AFTER `is_superman`;
 
 CREATE TABLE `book` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '图书id',
@@ -80,7 +82,9 @@ VALUES ('Moby Dick', 'Herman Melville', 5, '9781503280786', 5, 'A novel about th
 -- 10. 插入一本图书
 INSERT INTO `book` (`title`, `author`, `category_id`, `isbn`, `stock`, `description`, `cover_image`, `create_time`)
 VALUES ('War and Peace', 'Leo Tolstoy', 6, '9781400079988', 22, 'A historical novel set during the Napoleonic Wars.', '/images/war_peace.jpg', NOW());
-
+ALTER TABLE `book` 
+ADD COLUMN `publisher` varchar(50) NOT NULL DEFAULT '' COMMENT '出版社' AFTER `isbn`,
+ADD COLUMN `publish_date` datetime(0) DEFAULT NULL COMMENT '出版时间' AFTER `publisher`;
 
 CREATE TABLE `book_borrow_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

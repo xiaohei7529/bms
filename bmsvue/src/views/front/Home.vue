@@ -39,9 +39,6 @@
                         <span :class="['title', activeTab === 'collect' ? 'active' : '']" @click="switchTab('collect')">
                             热门收藏
                         </span>
-                        <span :class="['title', activeTab === 'score' ? 'active' : '']" @click="switchTab('score')">
-                            高分图书
-                        </span>
                     </div>
 
                     <!-- 右侧查看更多 -->
@@ -52,7 +49,7 @@
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="(book, index) in currentBooks" :key="index">
                         <el-card :body-style="{ padding: '0px' }">
-                            <img :src="book.image" class="image" />
+                            <img :src="book.image_url" class="image" />
                             <div style="padding: 14px;">
                                 <span>{{ book.title }}</span>
                                 <div class="bottom clearfix">
@@ -78,7 +75,7 @@
                 <el-row :gutter="20">
                     <el-col :span="6" v-for="(book, index) in newBooks" :key="index">
                         <el-card :body-style="{ padding: '0px' }">
-                            <img :src="book.image" class="image" />
+                            <img :src="book.image_url" class="image" />
                             <div style="padding: 14px;">
                                 <span>{{ book.title }}</span>
                                 <div class="bottom clearfix">
@@ -158,12 +155,17 @@ export default {
     },
     methods: {
         bookDetails(id) {
-            id = 123
+            // id = 123
             this.$router.push({ name: 'bookDetails', params: { id: id } });
         },
         // 处理书籍检索
         handleSearch() {
             this.$message(`检索关键词: ${this.searchQuery}, 检索类型: ${this.searchType}, 匹配类型: ${this.matchType}`);
+            this.$router.push({ name: 'bookList',params:{
+                searchQuery: this.searchQuery,
+                searchType: this.searchType,
+                matchType: this.matchType,
+            } });
         },
         // 切换标签
         switchTab(tab) {
@@ -171,11 +173,17 @@ export default {
         },
         // 处理查看更多
         handleMore() {
-            this.$message("查看更多功能待实现");
+            // this.$message("查看更多功能待实现");
+            this.$router.push({ name: 'bookList' ,params:{
+                searchQuery: this.searchQuery,
+                searchType: this.searchType,
+                matchType: this.matchType,
+            }});
         },
         // 处理新书推荐查看更多
         handleMoreNewBooks() {
-            this.$message("查看更多新书功能待实现");
+            // this.$message("查看更多新书功能待实现");
+            this.$router.push({ name: 'newBookList'});
         },
         // 加载热门借阅书籍数据
         loadHotBooks() {
@@ -321,7 +329,7 @@ export default {
 }
 
 .image {
-    width: 100%;
+    /* width: 100%; */
     height: 200px;
     object-fit: cover;
 }

@@ -20,6 +20,7 @@
 $router->get('api/auth/userLogin','Admin\AdminController@userLogin');//登录
 $router->post('api/auth/userLogin','Admin\AdminController@userLogin');//登录
 $router->post('api/auth/userRegister','Admin\AdminController@userRegistration');//注册
+$router->post('api/auth/userLogout','Admin\AdminController@userLogout');//退出
 
 
 
@@ -68,22 +69,24 @@ $router->get('api/refresh','AuthController@refresh'); // 刷新 Token
   $router->get('api/book/score','Book\BookController@score');
   // 新书上架
   $router->get('api/book/new','Book\BookController@new');
-
+  // 获取图书详情
+  $router->get('api/book/fetchBookDetails','Book\BookController@fetchBookDetails');
 
   /**
    * 用户图书
    */
   $router->get('api/userBook/getUser','Book\UserBookController@getUser');
 
-  // 收藏图书
+  // 收藏图书列表
   $router->get('api/userBook/getFavoriteBookList','Book\UserBookController@getFavoriteBookList');
   // 移除收藏图书
   $router->post('api/userBook/removeFavorite','Book\UserBookController@removeFavorite');
 
 
-  // 借阅图书
+  // 借阅图书列表
   $router->get('api/userBook/getBorrowedBooksList','Book\UserBookController@getBorrowedBooksList');
-
+  // 借阅图书
+  $router->post('api/userBook/borrowBook','Book\UserBookController@borrowBook');
 
 
   // 待归还图书

@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 // use Illuminate\Foundation\Validation\ValidatesRequests;
 // use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+
 class Controller extends BaseController
 {
     // use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -29,10 +30,10 @@ class Controller extends BaseController
     public function getPagingResponse($input)
     {
         return [
-              'page_size'=>$input['page_size'],
-              'page_index'=>$input['page_no'],
-              'total_records'=>isset($input['total_records'])?$input['total_records']:0,
-             ];
+            'page_size' => $input['page_size'],
+            'page_index' => $input['page_no'],
+            'total_records' => isset($input['total_records']) ? $input['total_records'] : 0,
+        ];
     }
 
 }

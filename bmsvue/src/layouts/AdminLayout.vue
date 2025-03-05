@@ -91,6 +91,7 @@ export default {
           this.$message.success('退出登录成功');
           localStorage.setItem('token', ""); // 存储 Token
           localStorage.setItem('isLoggedIn', false); // 存储 Token
+          localStorage.setItem('userRole', ""); // 存储 用户角色
           this.$router.push('/login');
         });
       } else if (command === 'profile') {
