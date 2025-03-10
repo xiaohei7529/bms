@@ -32,11 +32,10 @@ class QueryListener
 
         $log = vsprintf($sql, $event->bindings). ' | 耗费时间(ms):' .  $event->time;
 
-
-        Log::useDailyFiles(storage_path().'/logs/sql/sql.log');
-        Log::info($log);
-        // Log::channel('sql')->info($log);
+        // Log::useDailyFiles(storage_path().'/logs/sql/sql.log');
         // Log::info($log);
+        Log::channel('sql')->info($log);
+        Log::info($log);
         // \Illuminate\Support\Facades\Log::channel('sql')->info($log);
     }
 }

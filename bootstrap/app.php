@@ -55,7 +55,7 @@ $app->singleton(
 */
 
 //添加了sql语句监听输出
-if(env('APP_DEBUG') || !empty($_REQUEST['_debug']) ) $app->register(App\Providers\EventServiceProvider::class);
+// if(env('APP_DEBUG') || !empty($_REQUEST['_debug']) ) $app->register(App\Providers\EventServiceProvider::class);
 
 // 设置session别名
 $app->alias('session', 'Illuminate\Session\SessionManager');
@@ -70,11 +70,11 @@ $app->router->group([
 /**
  * laravel 日志 按照日期保存
  */
-$app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
-    return $monoLog->pushHandler(
-        (new \Monolog\Handler\RotatingFileHandler($app->storagePath().'/logs/laravel/laravel.log'))
-            ->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true, true))
-    );
-});
+// $app->configureMonologUsing(function(Monolog\Logger $monoLog) use ($app){
+//     return $monoLog->pushHandler(
+//         (new \Monolog\Handler\RotatingFileHandler($app->storagePath().'/logs/laravel/laravel.log'))
+//             ->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true, true))
+//     );
+// });
 
 return $app;
