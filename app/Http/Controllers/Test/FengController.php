@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Test;
 
 use App\Http\Controllers\Controller;
+use App\Service\SqlParserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
@@ -33,6 +34,12 @@ class FengController extends Controller
     {
         $input = $request->all();
         trim_strings($input);
+        // pd($input);
+
+        // $result = $this->parseSql($input['sql']);
+
+        $result = (new SqlParserService())->parseSql($input['sql']);
+        pd($result);
         $a = '[
     {
         "tableName": "`book_favorite`",

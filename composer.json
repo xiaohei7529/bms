@@ -9,6 +9,7 @@
         "apache/log4php": "^2.3",
         "barryvdh/laravel-cors": "*",
         "fideloper/proxy": "~4.0",
+        "greenlion/php-sql-parser": "^4.7",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "~1.0",
         "tymon/jwt-auth": "^1.0"
