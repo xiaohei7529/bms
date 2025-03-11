@@ -92,6 +92,7 @@ class SqlParserService
     {
         // 简单实现，使用分号分隔并移除空语句
         $statements = array_filter(array_map('trim', explode(';', $sql)));
+        pd($statements);
         return $statements;
     }
     

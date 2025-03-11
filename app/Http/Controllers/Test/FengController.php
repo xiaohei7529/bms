@@ -36,7 +36,13 @@ class FengController extends Controller
         trim_strings($input);
         // pd($input);
 
-        // $result = $this->parseSql($input['sql']);
+        $url = 'http://127.0.0.1:8088/api/er-diagram/parse';           
+        $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");
+        $result = $this->http($url,'POST',json_encode($input),$headerArray);
+        
+
+        return response()->json(get_success_api_response(json_decode($result,true)));
+
 
         $result = (new SqlParserService())->parseSql($input['sql']);
         pd($result);
