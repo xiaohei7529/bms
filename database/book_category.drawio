@@ -1,11 +1,16 @@
 <mxfile host="65bd71144e">
     <diagram id="YTGRNDIYLsDVCo5CeeWu" name="第 1 页">
-        <mxGraphModel dx="1137" dy="787" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1258" dy="783" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="2" value="book_category" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry x="260" y="340" width="120" height="60" as="geometry"/>
+                <mxCell id="9" style="edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="2" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="525.2000732421875" y="234.39999389648438" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="2" value="图书分类表实体" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="275" y="342" width="120" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="3" value="name" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="90" y="170" width="120" height="80" as="geometry"/>
@@ -16,6 +21,9 @@
                         <mxPoint x="440" y="280" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
+                </mxCell>
+                <mxCell id="10" value="id" style="ellipse;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                    <mxGeometry x="461" y="170" width="120" height="80" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
