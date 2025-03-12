@@ -83,7 +83,7 @@ class Book extends Base
             $borrow_count = DB::table('book_borrow_record')
                 ->where('book_id',$input['book_id'])
                 ->where('user_id',$user->id)
-                ->where('status',0)
+                ->where('borrow_status',0)
                 ->count();
             $obj_list->isBorrowed = $borrow_count > 0 ? 1 : 0;
 

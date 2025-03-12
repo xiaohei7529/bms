@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "axios": "^1.5.0",
+    "axios": "^0.19.0",
     "bmsvue": "file:",
     "cors": "^2.8.5",
     "echarts": "^4.9.0",

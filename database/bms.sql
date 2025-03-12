@@ -92,7 +92,7 @@ CREATE TABLE `book_borrow_record` (
   `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',
   `borrow_date` datetime DEFAULT NULL COMMENT '借阅日期',
   `return_date` datetime DEFAULT NULL COMMENT '归还日期',
-  `status` tinyint(4) DEFAULT '0' COMMENT '借阅状态 0.未归还   1. 已归还',
+  `borrow_status` tinyint(4) DEFAULT '0' COMMENT '借阅状态 0.未归还   1. 已归还',
   `audit_atatus` tinyint(4) DEFAULT '0' COMMENT '审核状态 0.未审核  1.已审核',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='借阅记录表';

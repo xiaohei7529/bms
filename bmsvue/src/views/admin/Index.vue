@@ -19,24 +19,24 @@
   
         const option = {
           title: {
-            text: 'ECharts 示例'
+            text: '图书借阅统计表'
           },
           tooltip: {
             trigger: 'axis'
           },
           legend: {
-            data: ['销量']
+            data: ['借阅量']
           },
           xAxis: {
             type: 'category',
-            data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+            data: ['文学的魅力', '科学的未来', '历史的回响', '技术的变迁', '艺术的光辉', '经济学简史']
           },
           yAxis: {
             type: 'value'
           },
           series: [
             {
-              name: '销量',
+              name: '借阅量',
               type: 'bar',
               data: [5, 20, 36, 10, 10, 20]
             }
@@ -52,7 +52,7 @@
 
         option1 = {
         title: {
-            text: 'Referer of a Website',
+            text: '分类统计表',
             subtext: 'Fake Data',
             left: 'center'
         },
@@ -69,11 +69,11 @@
             type: 'pie',
             radius: '50%',
             data: [
-                { value: 1048, name: 'Search Engine' },
-                { value: 735, name: 'Direct' },
-                { value: 580, name: 'Email' },
-                { value: 484, name: 'Union Ads' },
-                { value: 300, name: 'Video Ads' }
+                { value: 1048, name: '文学' },
+                { value: 735, name: '科技' },
+                { value: 580, name: '历史' },
+                { value: 484, name: '艺术' },
+                { value: 300, name: '哲学' }
             ],
             emphasis: {
                 itemStyle: {

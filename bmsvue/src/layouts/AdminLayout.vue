@@ -43,7 +43,8 @@
             </template>
             <el-menu-item index="admin/booklist">图书列表</el-menu-item>
             <el-menu-item index="admin/bookcategory">图书分类</el-menu-item>
-            <el-menu-item index="admin/bookaudit">审批借阅图书</el-menu-item>
+            <el-menu-item index="admin/bookaudit">借阅图书列表</el-menu-item>
+            <el-menu-item index="admin/bookaudit">收藏图书列表</el-menu-item>
           </el-submenu>
           <el-submenu index="user">
             <template slot="title">
@@ -51,7 +52,7 @@
               <span>用户管理</span>
             </template>
             <el-menu-item index="user-list">用户列表</el-menu-item>
-            <el-menu-item index="add-user">添加用户</el-menu-item>
+            <!-- <el-menu-item index="add-user">添加用户</el-menu-item> -->
           </el-submenu>
         </el-menu>
       </el-aside>
