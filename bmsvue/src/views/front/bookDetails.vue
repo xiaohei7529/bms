@@ -27,6 +27,10 @@
                             {{ book.isBorrowed ? '已借阅' : '立即借阅' }}
                             <i v-if="loading" class="el-icon-loading"></i>
                         </el-button>
+                        <el-button type="success" :disabled="book.isFavorite || loading" @click="handleFavorite">
+                            {{ book.isFavorite ? '已收藏' : '立即收藏' }}
+                            <i v-if="loading" class="el-icon-loading"></i>
+                        </el-button>
                     </div>
                     <el-divider></el-divider>
 
@@ -135,7 +139,29 @@ export default {
                 .catch(error => {
                     console.error('获取图书详情失败:', error)
                 })
-        }
+        },
+
+        handleFavorite() {
+            this.$confirm('确定要收藏这本书吗？', '收藏确认', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.submitFavoriteequest()
+            }).catch(() => { })
+        },
+        submitFavoriteequest() {
+            this.$http.post('/api/userBook/storeFavorite',{
+                book_id:this.$route.params.id
+            })
+               .then(response => {
+                    // 更新成功后，重新加载数据
+                    this.$message.success('收藏成功');
+                    this.book.isFavorite = true
+                }).catch(error => {
+                    this.$message.error('收藏失败');
+                });
+        },
     }
 
 };

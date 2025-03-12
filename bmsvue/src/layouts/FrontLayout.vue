@@ -126,6 +126,9 @@ export default {
         case "borrow":
           this.handleBorrow();
           break;
+        case "admin":
+          this.handleAdmin();
+          break;
       }
     },
     // 处理退出登录
@@ -153,6 +156,9 @@ export default {
     handleBorrow() {
       this.$router.push(`/bookPending`);
       // this.$message("借阅图书功能待实现");
+    },
+    handleAdmin(){
+      this.$router.push(`/admin`);
     },
     // 处理书籍检索
     handleSearch() {

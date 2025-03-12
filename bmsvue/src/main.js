@@ -19,6 +19,12 @@ Vue.use(GeminiScrollbar)
 
 Vue.config.productionTip = false
 
+//引入
+import echarts from 'echarts'
+//将echarts添加到vue的原型上
+Vue.prototype.$echarts = echarts
+// Vue.use(echarts);
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

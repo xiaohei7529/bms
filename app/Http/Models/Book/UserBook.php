@@ -45,7 +45,7 @@ class UserBook extends Base
             ->leftJoin('book as a2','a1.book_id','=','a2.id')
             ->leftJoin('book_image as a3','a2.image_id','=','a3.id')
             ->leftJoin('book_category as a4','a2.category_id','=','a4.id')
-            ->select('a1.book_id','a1.ctime as favorite_time','a2.title','a2.author','a4.name as category_name','a3.image_name','a3.image_path')
+            ->select('a1.book_id','a1.create_at as favorite_time','a2.title','a2.author','a4.name as category_name','a3.image_name','a3.image_path')
             ->where('a1.user_id',$user_id);
         
         $input['total_records'] = $builder->count();
@@ -66,6 +66,16 @@ class UserBook extends Base
         // DB::table('book_favorite')->where('user_id',$user_id)->where('book_id',$input['book_id'])->delete();
     }
 
+    // 收藏图书
+    public function storeFavorite($input)
+    {
+        $user_id = Auth::user()->id;
+        DB::table('book_favorite')->insert([
+            'book_id'=>$input['book_id'],
+            'user_id'=>$user_id,
+            'create_at'=>date('Y-m-d H:i:s'),
+        ]);
+    }
     /************************************************************************借阅图书**************************************************************************************************** */
 
     // 获取借阅图书列表

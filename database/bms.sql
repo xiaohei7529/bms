@@ -118,7 +118,7 @@ CREATE TABLE `book_favorite` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
   `book_id` int(11) NOT NULL DEFAULT '0' COMMENT '图书id',
-  `ctime` datetime DEFAULT NULL COMMENT '收藏时间',
+  `create_at` datetime DEFAULT NULL COMMENT '收藏时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='收藏记录表';
 
@@ -129,6 +129,6 @@ CREATE TABLE `book_image` (
   `image_orgin_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片上传之前的名称',
   `image_path` varchar(150) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片路径',
   `extension` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '图片后缀',
-  `ctime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT= DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='图纸记录表';

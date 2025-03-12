@@ -59,6 +59,16 @@ class UserBookController extends ApiController
         return response()->json(get_success_api_response(200));
     }
 
+    // 收藏图书
+    public function storeFavorite(Request $request)
+    {
+        $input = $request->all();
+        trim_strings($input);
+        $this->model->storeFavorite($input);
+        return response()->json(get_success_api_response(200));
+    }
+
+
 /************************************************************************借阅图书**************************************************************************************************** */
 
     // 获取借阅图书列表

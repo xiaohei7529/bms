@@ -4,9 +4,9 @@ const adminRoutes = [
         component: () => import('@/layouts/AdminLayout.vue'),
         children: [
           {
-            path: '',
-            name: 'Dashboard',
-            component: () => import('@/views/admin/Dashboard.vue'),
+            path: '/',
+            name: 'Index',
+            component: () => import('@/views/admin/Index.vue'),
             meta: {
                 requiresAuth: false
             }

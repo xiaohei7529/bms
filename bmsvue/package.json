@@ -13,6 +13,7 @@
     "axios": "^1.5.0",
     "bmsvue": "file:",
     "cors": "^2.8.5",
+    "echarts": "^4.9.0",
     "element-ui": "^2.15.14",
     "vue": "^2.5.2",
     "vue-gemini-scrollbar": "^2.0.1",
